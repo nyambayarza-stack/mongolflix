@@ -692,17 +692,23 @@
 
     // Бүх кино үнэгүй шууд тоглоно
     function playMovie(id) {
+     // Бүх кино үнэгүй шууд тоглоно
+    function playMovie(id) {
       const m = movies.find(x => x.id === id);
       if (!m) return;
+
+      // Хэрэв шууд YouTube/Drive линк хараахан холбогдоогүй бол YouTube дээр шууд хайж нээнэ
+      if (m.full.includes('listType=search')) {
+        const searchUrl = m.ytSearchUrl || `https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' монгол кино бүтнээр')}`;
+        window.open(searchUrl, '_blank');
+        return;
+      }
 
       document.getElementById('playerTitle').textContent = m.title;
       document.getElementById('youtubeSearchFallback').href = m.ytSearchUrl || `https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' монгол кино')}`;
       document.getElementById('videoFrame').src = m.full + (m.full.includes('?') ? '&autoplay=1' : '?autoplay=1');
       openModal('playerModal');
     }
-
-    function openVipModal() {
-      document.getElementById('activeVipBox').classList.toggle('hidden', !isVipUnlocked);
       openModal('vipModal');
     }
 
