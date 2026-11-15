@@ -162,3 +162,965 @@
           <p id="packageHintText" class="text-xs text-amber-400 mt-0.5">Сонирхсон ангиллын багцаа сонгоод 1 сар хязгааргүй үзээрэй</p>
         </div>
         <button type="button" onclick="closeModal('packageModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white shrink-0">✕</button>
+      </div>
+
+      <div id="activePackagesBox" class="hidden mb-4 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex flex-wrap items-center justify-between gap-2">
+        <span id="activePackagesText">Идэвхтэй багц: ...</span>
+        <button type="button" onclick="deactivateAllPackages()" class="underline text-emerald-200 hover:text-white">Бүх эрхийг цуцлах</button>
+      </div>
+
+      <div id="packagesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 mb-6"></div>
+
+      <div class="p-4 rounded-xl bg-[#0b0d12] border border-white/10 flex flex-col sm:flex-row items-center gap-5">
+        <div class="w-36 h-36 bg-white rounded-xl p-2 flex items-center justify-center shrink-0 overflow-hidden">
+          <img id="displayQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=MONGOLFLIX-PAYMENT" alt="Bank QR" class="w-full h-full object-contain">
+        </div>
+        <div class="text-xs space-y-2 flex-1">
+          <div class="text-sm font-bold text-white">Сонгосон багц: <span id="selectedPlanLabel" class="text-amber-400">Монгол багц (3,900₮)</span></div>
+          <p class="text-gray-300 leading-relaxed">
+            1. Доорх данс руу эсвэл QR кодыг уншуулж төлбөрөө шилжүүлнэ үү.<br>
+            2. <span class="text-amber-400 font-semibold">Гүйлгээний утга дээр УТАСНЫ ДУГААР + БАГЦЫН НЭР</span> бичнэ үү.<br>
+            3. Төлбөр ормогц таны утсанд <span class="text-white font-semibold">багц нээх нууц код</span> мессежээр очно.
+          </p>
+          <div class="p-2.5 rounded-lg bg-white/5 border border-white/10 text-gray-200 font-mono">
+            Банк: <span id="displayBankName" class="font-bold text-white">Голомт Банк</span><br>
+            Данс: <span id="displayAccountNum" class="font-bold text-amber-400">150015002205208876</span> (<span id="displayAccountHolder">MongolFlix</span>)
+          </div>
+          <div class="pt-1">
+            <button type="button" onclick="closeModal('packageModal'); openCodeModal();" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+              Мессежээр ирсэн кодоо оруулах →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Код оруулах -->
+  <div id="codeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-lg font-bold text-white">🔑 Багцын код оруулах</h3>
+        <button type="button" onclick="closeModal('codeModal')" class="w-7 h-7 rounded bg-white/10 text-white">✕</button>
+      </div>
+      <p class="text-xs text-gray-400 mb-4">Таны утсанд мессежээр ирсэн багцын нууц кодыг доор бичнэ үү.</p>
+      <input id="unlockCodeInput" type="text" placeholder="Жишээ: MONGOL39" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-center text-lg font-mono uppercase tracking-widest text-white mb-3 focus:outline-none focus:border-amber-500">
+      <p id="codeErrorMsg" class="text-xs text-red-400 mb-3 hidden">Код буруу байна. Шалгаад дахин оруулна уу.</p>
+      <button type="button" onclick="verifyUnlockCode()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition">
+        Багц нээх
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. Админ Үсгэн Нууц Үг Нэвтрэх Цонх -->
+  <div id="adminAuthModal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center mx-auto mb-3 text-xl">🔐</div>
+      <h3 class="text-base font-bold text-white mb-1">Админ удирдлага</h3>
+      <p class="text-xs text-gray-400 mb-4">Үсгэн нууц үгээ оруулна уу (Код: <span class="text-amber-400 font-mono font-bold">ADMIN</span>)</p>
+      <input id="adminPinInput" type="text" maxlength="20" onkeydown="if(event.key==='Enter') checkAdminPin()" placeholder="Нууц үг..." class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-2.5 text-center text-base font-mono uppercase tracking-widest text-white mb-3 focus:outline-none focus:border-red-500">
+      <p id="adminPinError" class="text-xs text-red-400 mb-3 hidden">Нууц үг буруу байна!</p>
+      <div class="flex gap-2">
+        <button type="button" onclick="closeModal('adminAuthModal')" class="flex-1 py-2 rounded-lg bg-white/10 text-gray-300 text-xs font-semibold">Хаах</button>
+        <button type="button" onclick="checkAdminPin()" class="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold">Нэвтрэх</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Админ Удирдлагын Төв -->
+  <div id="adminPanelModal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-5xl w-full p-6 shadow-2xl my-8 max-h-[92vh] flex flex-col">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 shrink-0">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">🛡️ Админ Удирдлагын Төв (100+ Кино сан)</h2>
+          <p class="text-xs text-gray-400">YouTube-ээс олноор кино оруулах, линк холбох, багц болон SMS код удирдах</p>
+        </div>
+        <button type="button" onclick="closeModal('adminPanelModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white">✕</button>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto pb-3 mb-4 border-b border-white/10 shrink-0 text-xs">
+        <button type="button" onclick="switchAdminTab('movies')" id="tabBtn_movies" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold">🎬 Кино жагсаалт & Линк засах</button>
+        <button type="button" onclick="switchAdminTab('bulk')" id="tabBtn_bulk" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-amber-300 hover:bg-white/10 font-bold">⚡ YouTube-ээс олноор оруулах</button>
+        <button type="button" onclick="switchAdminTab('plans')" id="tabBtn_plans" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">💰 Багцууд & SMS код</button>
+        <button type="button" onclick="switchAdminTab('hero')" id="tabBtn_hero" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">⭐ Онцлох кино</button>
+        <button type="button" onclick="switchAdminTab('bank')" id="tabBtn_bank" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">🏦 Данс & Нууц үг</button>
+      </div>
+
+      <div class="overflow-y-auto flex-1 pr-1 space-y-5 text-xs">
+        <!-- ТАБ 1: Кино нэмэх ба 100 киноны линк засах -->
+        <div id="adminTab_movies" class="admin-tab-content space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+            <div class="font-bold text-white text-sm">➕ Шинэ ганц кино нэмэх (YouTube линк оруулбал постер автоматаар татагдана)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="text-gray-400 block mb-1">Киноны нэр *</label>
+                <input id="newMovieTitle" type="text" placeholder="Жишээ: Ану Хатан" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">Аль багцад хамаарах вэ? *</label>
+                <select id="newMovieCat" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white font-semibold"></select>
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">YouTube эсвэл Google Drive линк *</label>
+                <input id="newMovieFull" type="text" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+            </div>
+            <button type="button" onclick="addNewMovie()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+              + Жагсаалтад нэмэх
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div class="font-bold text-white text-sm">📋 Нийт киноны жагсаалт (<span id="adminMovieCount">0</span>) — Линк холбох & Засах</div>
+              <input id="adminSearchMovie" type="text" oninput="renderAdminMoviesList()" placeholder="Жагсаалтаас кино хайх..." class="bg-black/50 border border-white/15 rounded-lg px-3 py-1.5 text-white w-full sm:w-64">
+            </div>
+            <div id="adminMoviesList" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+
+        <!-- ТАБ 2: YouTube-ээс 100 кино нэг дор автоматаар оруулах -->
+        <div id="adminTab_bulk" class="admin-tab-content hidden space-y-4">
+          <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+            <div class="font-bold text-amber-300 text-sm">⚡ YouTube-ээс олон кино нэг дор автоматаар оруулах (Постер зураг автоматаар татагдана)</div>
+            <p class="text-gray-300 leading-relaxed">
+              Мөр бүрт <b>Киноны нэр | YouTube линк</b> гэж бичээд (эсвэл дан YouTube линкүүдийг мөр мөрөөр хуулаад) доорх товчийг дарахад систем автоматаар постер зургийг нь YouTube-ээс авч бүгдийг нь 1 секундэд нэмнэ.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-gray-300 block mb-1 font-semibold">Аль багцад оруулах вэ?</label>
+                <select id="bulkMovieCat" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white font-semibold"></select>
+              </div>
+              <div>
+                <label class="text-gray-300 block mb-1 font-semibold">Төлөв</label>
+                <select id="bulkMovieVip" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white">
+                  <option value="true">👑 Багцтай (Төлбөртэй)</option>
+                  <option value="false">Үнэгүй</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="bulkYoutubeInput" rows="8" placeholder="Мандухай сэцэн хатан | https://www.youtube.com/watch?v=...&#10;Тунгалаг Тамир | https://www.youtube.com/watch?v=...&#10;Би чамд хайртай | https://youtu.be/..." class="w-full bg-black/60 border border-white/20 rounded-xl p-3 text-white font-mono text-xs"></textarea>
+            <button type="button" onclick="bulkImportYoutube()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition">
+              ⚡ Бүх киног постертой нь автоматаар нэмэх
+            </button>
+          </div>
+        </div>
+
+        <!-- ТАБ 3: Олон төрлийн Багцууд & SMS код -->
+        <div id="adminTab_plans" class="admin-tab-content hidden space-y-4">
+          <div class="p-4 rounded-xl bg-red-600/10 border border-red-600/30 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-white text-sm">Админ эрхээр бүх киног шууд үзэх</div>
+              <div class="text-gray-400">Төлбөр төлөхгүйгээр бүх багцын киног шалгаж үзэх горим</div>
+            </div>
+            <button type="button" id="toggleAdminBypassBtn" onclick="toggleAdminBypass()" class="px-4 py-2 rounded-lg bg-red-600 text-white font-bold">Асаах</button>
+          </div>
+          <div id="adminPackagesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- ТАБ 4: Онцлох кино -->
+        <div id="adminTab_hero" class="admin-tab-content hidden space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+            <div class="font-bold text-white text-sm">⭐ Нүүр хуудасны том онцлох киног солих</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-gray-400 block mb-1">Онцлох киноны нэр</label>
+                <input id="cfgHeroTitle" type="text" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">Аль багцад хамаарах вэ?</label>
+                <select id="cfgHeroCat" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white"></select>
+              </div>
+            </div>
+            <div>
+              <label class="text-gray-400 block mb-1">Товч тайлбар</label>
+              <textarea id="cfgHeroDesc" rows="2" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-gray-400 block mb-1">Бүтэн киноны линк (YouTube / Drive)</label>
+                <input id="cfgHeroFull" type="text" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">Арын том зураг (Линк)</label>
+                <input id="cfgHeroImg" type="text" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ТАБ 5: Банкны данс, QR & Үсгэн нууц үг -->
+        <div id="adminTab_bank" class="admin-tab-content hidden space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+            <div class="font-bold text-white text-sm">🏦 Банкны данс ба Админ үсгэн нууц үг</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="text-gray-400 block mb-1">Банкны нэр</label>
+                <input id="cfgBankName" type="text" class="w-full bg-black/40 border border-white/15 rounded px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">Дансны дугаар</label>
+                <input id="cfgAccountNum" type="text" class="w-full bg-black/40 border border-white/15 rounded px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">Хүлээн авагч</label>
+                <input id="cfgAccountHolder" type="text" class="w-full bg-black/40 border border-white/15 rounded px-3 py-2 text-white">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="text-gray-400 block mb-1">Банкны QR зураг (.jpg / .png)</label>
+                <input type="file" accept="image/*" onchange="uploadQrFile(event)" class="w-full text-gray-300 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-white/10 file:text-white">
+              </div>
+              <div>
+                <label class="text-amber-400 font-semibold block mb-1">Админ үсгэн нууц үг солих</label>
+                <input id="cfgAdminPin" type="text" maxlength="20" class="w-full bg-black/40 border border-amber-500/40 rounded px-3 py-2 text-white font-mono uppercase">
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="font-bold text-white text-sm">💾 100 киноны сан ба тохиргоо нөөцлөх</div>
+              <div class="text-gray-400">Өөр төхөөрөмж рүү шилжүүлэх бол файлаар татаж авна уу</div>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" onclick="exportBackup()" class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold">⬇️ Татаж авах</button>
+              <label class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer">
+                ⬆️ Сэргээх
+                <input type="file" accept=".json" onchange="importBackup(event)" class="hidden">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 mt-4 border-t border-white/10 flex justify-end gap-3 shrink-0">
+        <button type="button" onclick="saveAdminSettings()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-lg shadow-emerald-600/20">
+          Бүх өөрчлөлтийг хадгалах
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_PACKAGES = [
+      { key: "Монгол", icon: "🇲🇳", name: "Монгол багц", desc: "Сонгодог & Орчин үеийн", price: "3,900₮", code: "MONGOL39" },
+      { key: "Инээдмийн", icon: "😂", name: "Инээдмийн & Гэр бүл", desc: "Инээдмийн, хайр дурлал", price: "3,900₮", code: "COMEDY39" },
+      { key: "Адал явдалт", icon: "⚔️", name: "Драм & Адал явдалт", desc: "Тулаант, түүхэн, драм", price: "3,900₮", code: "ACTION39" },
+      { key: "Ази", icon: "🇰🇷", name: "Ази багц", desc: "Солонгос, Хятад, Япон", price: "3,900₮", code: "ASIA39" },
+      { key: "Европ", icon: "🇺🇸", name: "Европ багц", desc: "Холливуд, Европ кино", price: "3,900₮", code: "EURO39" },
+      { key: "Олон ангит", icon: "📺", name: "Олон ангит багц", desc: "Бүх цуврал кинонууд", price: "3,900₮", code: "SERIES39" },
+      { key: "Хүүхдийн", icon: "🧸", name: "Хүүхдийн багц", desc: "Хүүхэлдэйн & гэр бүлийн", price: "2,900₮", code: "KIDS29" },
+      { key: "Аймшгийн", icon: "👻", name: "Аймшгийн багц", desc: "Аймшгийн & Триллер", price: "3,900₮", code: "HORROR39" },
+      { key: "ALL", icon: "👑", name: "БҮХ БАГЦ (VIP)", desc: "Дээрх бүх багц нээгдэнэ", price: "8,000₮", code: "ALLVIP8", isAll: true }
+    ];
+
+    const RAW_100_MONGOL_MOVIES = [
+      // 1-25 Сонгодог болон хуучны кино -> Монгол
+      ["Мандухай сэцэн хатан", "Монгол", 1988, "9.8"],
+      ["Цогт тайж", "Монгол", 1945, "9.7"],
+      ["Өглөө", "Монгол", 1968, "9.5"],
+      ["Тунгалаг Тамир", "Монгол", 1970, "9.8"],
+      ["Хатанбаатар", "Монгол", 1981, "9.4"],
+      ["Хүний сайхан сэтгэл", "Монгол", 1980, "9.3"],
+      ["Хөхөө гэрлэх дөхлөө", "Монгол", 1962, "9.5"],
+      ["Эх бүрдийн домог", "Монгол", 1975, "9.2"],
+      ["Анхны алхам", "Монгол", 1970, "9.4"],
+      ["Тэмцэл", "Монгол", 1971, "9.1"],
+      ["Ардын элч", "Монгол", 1959, "9.5"],
+      ["Сэрэлт", "Монгол", 1957, "9.6"],
+      ["Гологдсон хүүхэн", "Монгол", 1961, "9.2"],
+      ["Морьтой ч болоосой", "Монгол", 1959, "9.4"],
+      ["Хөдөөгийн баясгалан", "Монгол", 1974, "9.3"],
+      ["Талын цуурай", "Монгол", 1970, "9.0"],
+      ["Хүний мөр", "Монгол", 1965, "9.4"],
+      ["Хил дээр болсон хэрэг", "Монгол", 1965, "9.1"],
+      ["Би чамд хайртай", "Монгол", 1985, "9.7"],
+      ["Гарьд магнай", "Монгол", 1983, "9.7"],
+      ["Тод магнай", "Монгол", 1990, "9.5"],
+      ["Цэц магнай", "Монгол", 1995, "9.4"],
+      ["Аман хуур", "Монгол", 1963, "9.3"],
+      ["Үер", "Монгол", 1966, "9.2"],
+      ["Хөх ногооны униар", "Монгол", 1977, "9.1"],
+
+      // 26-50 Инээдмийн болон гэр бүлийн кино -> Инээдмийн
+      ["Мөрөөдлийн хөлөг", "Инээдмийн", 2005, "8.8"],
+      ["Сайн уу амьдрал минь", "Инээдмийн", 2008, "9.2"],
+      ["Хайр харуусал", "Инээдмийн", 2009, "8.6"],
+      ["Сүүлчийн бүжиг", "Инээдмийн", 2010, "8.5"],
+      ["Хайрын рекорд", "Инээдмийн", 2011, "8.9"],
+      ["Тусгай салаа", "Инээдмийн", 2010, "9.4"],
+      ["Амьдралоги", "Инээдмийн", 2017, "9.0"],
+      ["Помогите нам", "Инээдмийн", 2012, "9.1"],
+      ["Дурлалын гэмт хэрэг", "Инээдмийн", 2013, "8.8"],
+      ["Сайн уу амьдрал минь 2", "Инээдмийн", 2014, "8.9"],
+      ["Микроны босс", "Инээдмийн", 2013, "9.3"],
+      ["Боолын гэрээ", "Инээдмийн", 2011, "8.7"],
+      ["Содура", "Инээдмийн", 2015, "9.4"],
+      ["Зүрхний хилэн", "Инээдмийн", 2017, "9.6"],
+      ["Хайртай", "Инээдмийн", 2016, "8.5"],
+      ["Мөнгөний гахай", "Инээдмийн", 2015, "8.6"],
+      ["Хөгжилтэй өдөр", "Инээдмийн", 2014, "8.4"],
+      ["Гоёлын даашинз", "Инээдмийн", 2009, "8.9"],
+      ["Дүүлэн нис", "Инээдмийн", 2012, "8.5"],
+      ["Дурлалын гэмт хэрэг 2", "Инээдмийн", 2015, "8.7"],
+      ["Аз жаргалын шок", "Инээдмийн", 2013, "9.2"],
+      ["Single Ladies", "Инээдмийн", 2013, "9.1"],
+      ["Single Ladies 2", "Инээдмийн", 2015, "9.0"],
+      ["Single Ladies 3", "Инээдмийн", 2017, "8.9"],
+      ["Тагнуулч аав", "Инээдмийн", 2016, "9.0"],
+
+      // 51-75 Орчин үеийн Монгол кино -> Монгол
+      ["Ларьдма", "Монгол", 2013, "9.3"],
+      ["Аав", "Монгол", 2015, "9.5"],
+      ["Ээж", "Монгол", 2016, "9.2"],
+      ["Алсын удирдлага", "Монгол", 2013, "9.1"],
+      ["Үргээлэг", "Монгол", 2014, "9.4"],
+      ["Бодлын хулгайч", "Монгол", 2011, "9.5"],
+      ["Тэнгэрийн хүү", "Монгол", 2011, "9.4"],
+      ["Зэрлэг цэцэгсийн хүлэмж", "Монгол", 2013, "9.3"],
+      ["Содура (Бүрэн хувилбар)", "Монгол", 2015, "9.4"],
+      ["Маш нууц", "Монгол", 2015, "9.6"],
+      ["Маш нууц 2: Байтаг Богд", "Монгол", 2018, "9.7"],
+      ["Фантастик", "Монгол", 2019, "9.1"],
+      ["Зүрхний хилэн (Түүхэн)", "Монгол", 2017, "9.6"],
+      ["Хайрлаж болох уу", "Монгол", 2014, "8.8"],
+      ["247 градус", "Монгол", 2016, "8.7"],
+      ["Микроны босс 2: Приусны босс", "Монгол", 2016, "9.2"],
+      ["Дурлалын гэмт хэрэг 3", "Монгол", 2018, "8.6"],
+      ["Тусгаар тогтнол", "Монгол", 2016, "9.1"],
+      ["Цасан охин", "Монгол", 2014, "8.7"],
+      ["Анирлагч", "Монгол", 2015, "8.8"],
+      ["Шарга даага", "Монгол", 2013, "9.2"],
+      ["Гэгээн учрал", "Монгол", 2015, "8.6"],
+      ["Ээжийн дайсан", "Монгол", 2012, "8.9"],
+      ["Сүүлчийн цасан ширхэг", "Монгол", 2017, "8.5"],
+      ["Хайр үнэртсэн бороо", "Монгол", 2018, "8.7"],
+
+      // 76-100 Драм, адал явдалт болон бусад -> Адал явдалт
+      ["Үргээлэг 2", "Адал явдалт", 2016, "9.3"],
+      ["Үргээлэг 3", "Адал явдалт", 2021, "9.0"],
+      ["Хөх толбот хүмүүс", "Адал явдалт", 2011, "9.2"],
+      ["Долоон бурхан харвадаггүй", "Адал явдалт", 2012, "9.4"],
+      ["Долоон бурхан харвадаггүй 2", "Адал явдалт", 2014, "9.1"],
+      ["Говийн зэрэглээ", "Адал явдалт", 1980, "9.5"],
+      ["Хүн чулууны нулимс", "Адал явдалт", 1990, "9.1"],
+      ["Хүний амь", "Адал явдалт", 1976, "9.0"],
+      ["Нийслэл хүү", "Адал явдалт", 1968, "9.4"],
+      ["Уулын намар", "Адал явдалт", 1982, "8.9"],
+      ["Өндөр ээж", "Адал явдалт", 1968, "9.2"],
+      ["Их замын эхэнд", "Адал явдалт", 1978, "9.0"],
+      ["Гал хам", "Адал явдалт", 2013, "8.8"],
+      ["Хайр", "Адал явдалт", 2015, "8.6"],
+      ["Дурлалын сум", "Адал явдалт", 2014, "8.5"],
+      ["Хайрын эрэлд", "Адал явдалт", 2012, "8.7"],
+      ["Сайн уу амьдрал минь 3", "Адал явдалт", 2019, "8.8"],
+      ["Зүүдний үргэлжлэл", "Адал явдалт", 2016, "8.5"],
+      ["Гэрлэлт", "Адал явдалт", 2017, "8.6"],
+      ["Эцсийн зогсоол", "Адал явдалт", 2018, "8.9"],
+      ["Амьдралын үнэ цэнэ", "Адал явдалт", 2017, "8.8"],
+      ["Хайрын хүч", "Адал явдалт", 2016, "8.5"],
+      ["Бэр", "Адал явдалт", 2019, "8.9"],
+      ["Хадаг", "Адал явдалт", 2006, "9.3"],
+      ["Мөнх тэнгэрийн хүчин дор", "Адал явдалт", 1992, "9.7"]
+    ];
+
+    const POSTER_THEMES = [
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=500&q=80"
+    ];
+
+    const DEFAULT_MOVIES = RAW_100_MONGOL_MOVIES.map((item, index) => {
+      const [title, category, year, rating] = item;
+      const query = encodeURIComponent(title + " монгол кино бүтнээр");
+      return {
+        id: index + 1,
+        title: title,
+        category: category,
+        year: year,
+        rating: rating,
+        vip: index >= 5, // Эхний 5 кино үнэгүй туршилтынх, бусад нь багцтай
+        img: POSTER_THEMES[index % POSTER_THEMES.length],
+        full: `https://www.youtube.com/embed?listType=search&list=${query}`,
+        trailer: `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(title + " трейлер")}`,
+        ytSearchUrl: `https://www.youtube.com/results?search_query=${query}`
+      };
+    });
+
+    const DEFAULT_CFG = {
+      pin: "ADMIN",
+      packages: DEFAULT_PACKAGES,
+      bankName: "Голомт Банк",
+      accountNum: "150015002205208876",
+      accountHolder: "MongolFlix",
+      qrUrl: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=MONGOLFLIX-PAYMENT",
+      heroTitle: "Мандухай Сэцэн Хатан",
+      heroCat: "Монгол",
+      heroMeta: "1988 • Түүхэн, Сонгодог",
+      heroDesc: "Монголын их хаант улсын нэгдэл, тусгаар тогтнолын төлөөх түүхэн тэмцэл болон Мандухай хатны ухаалаг зоригт үйл хэргийг өгүүлэх алтан үеийн шилдэг бүтээл.",
+      heroImg: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600&q=80",
+      heroFull: "https://www.youtube.com/embed?listType=search&list=%D0%9C%D0%B0%D0%BD%D0%B4%D1%83%D1%85%D0%B0%D0%B9+%D1%81%D1%8D%D1%86%D1%8D%D0%BD+%D1%85%D0%B0%D1%82%D0%B0%D0%BD+%D0%BC%D0%BE%D0%BD%D0%B3%D0%BE%D0%BB+%D0%BA%D0%B8%D0%BD%D0%BE",
+      heroTrailer: "https://www.youtube.com/embed?listType=search&list=%D0%9C%D0%B0%D0%BD%D0%B4%D1%83%D1%85%D0%B0%D0%B9+%D1%81%D1%8D%D1%86%D1%8D%D0%BD+%D1%85%D0%B0%D1%82%D0%B0%D0%BD"
+    };
+
+    let movies = JSON.parse(localStorage.getItem('mf_movies_100_v1')) || DEFAULT_MOVIES;
+    let savedCfg = JSON.parse(localStorage.getItem('mf_config_v4')) || {};
+    let config = {
+      ...DEFAULT_CFG,
+      ...savedCfg,
+      packages: savedCfg.packages && savedCfg.packages.length ? savedCfg.packages : DEFAULT_PACKAGES
+    };
+    let unlockedPackages = JSON.parse(localStorage.getItem('mf_unlocked_pkgs')) || [];
+    let adminBypass = localStorage.getItem('mf_admin_bypass') === 'true';
+    let watchlist = JSON.parse(localStorage.getItem('mf_watchlist')) || [1];
+    let currentCategory = 'all';
+    let currentMovieObj = null;
+    let logoClicks = 0, logoTimer = null;
+
+    function handleLogoClick() {
+      logoClicks++;
+      clearTimeout(logoTimer);
+      if (logoClicks >= 5) { logoClicks = 0; openAdminAuth(); }
+      else { logoTimer = setTimeout(() => { logoClicks = 0; }, 1500); }
+    }
+
+    function extractYoutubeId(url) {
+      if (!url) return null;
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const match = url.match(regExp);
+      return match ? match[1] : null;
+    }
+
+    function formatEmbedUrl(url) {
+      if (!url) return "";
+      const ytId = extractYoutubeId(url);
+      if (ytId) return `https://www.youtube.com/embed/${ytId}`;
+      if (url.includes("drive.google.com/file/d/")) {
+        const id = url.split("/d/")[1].split("/")[0];
+        return `https://drive.google.com/file/d/${id}/preview`;
+      }
+      return url;
+    }
+
+    function getAutoPoster(url, fallbackIndex = 0) {
+      const ytId = extractYoutubeId(url);
+      if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+      return POSTER_THEMES[fallbackIndex % POSTER_THEMES.length];
+    }
+
+    function hasPackageAccess(cat) {
+      if (adminBypass) return true;
+      if (unlockedPackages.includes('ALL')) return true;
+      return unlockedPackages.includes(cat);
+    }
+
+    function renderCategoryTabs() {
+      const container = document.getElementById('categoryTabs');
+      const nonAllPkgs = config.packages.filter(p => !p.isAll);
+      let html = `<button type="button" onclick="filterCategory('all')" class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === 'all' ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">Бүгд (${movies.length})</button>`;
+      html += nonAllPkgs.map(p => {
+        const count = movies.filter(m => m.category === p.key).length;
+        return `
+          <button type="button" onclick="filterCategory('${p.key}')" class="shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === p.key ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">
+            ${p.icon} ${p.name} (${count})
+          </button>
+        `;
+      }).join('');
+      container.innerHTML = html;
+    }
+
+    function renderPackagesModalGrid(selectedKey) {
+      const grid = document.getElementById('packagesGrid');
+      grid.innerHTML = config.packages.map(p => {
+        const isSelected = p.key === selectedKey;
+        const baseStyle = p.isAll
+          ? (isSelected ? "bg-red-600/25 border-2 border-red-500" : "bg-red-600/10 border border-red-500/40 hover:border-red-500")
+          : (isSelected ? "bg-amber-500/15 border-2 border-amber-500" : "bg-white/5 border border-white/10 hover:border-amber-500");
+        return `
+          <div onclick="selectPackage('${p.key}')" class="cursor-pointer p-3.5 rounded-xl ${baseStyle} transition flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-semibold ${p.isAll ? 'text-red-400' : 'text-gray-200'} mb-1">${p.icon} ${p.name}</div>
+              <div class="text-lg font-extrabold text-white">${p.price}</div>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1 line-clamp-1">${p.desc}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateUiState() {
+      document.getElementById('watchlistCount').textContent = watchlist.length;
+      const statusBtn = document.getElementById('vipStatusBtn');
+      const statusText = document.getElementById('vipStatusText');
+      if (adminBypass) {
+        statusText.textContent = "🛡️ Админ горим";
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
+      } else if (unlockedPackages.length > 0) {
+        const label = unlockedPackages.includes('ALL') ? "Бүх багц VIP" : unlockedPackages.join(", ");
+        statusText.textContent = "✓ " + label;
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
+      } else {
+        statusText.textContent = `Багц авах`;
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
+      }
+
+      document.getElementById('heroTitle').textContent = config.heroTitle;
+      document.getElementById('heroMeta').textContent = config.heroMeta;
+      document.getElementById('heroDesc').textContent = config.heroDesc;
+      document.getElementById('heroBannerImg').src = config.heroImg;
+      const heroPkg = config.packages.find(p => p.key === config.heroCat);
+      document.getElementById('heroPkgBadge').textContent = heroPkg ? `${heroPkg.icon} ${heroPkg.name}` : `👑 ${config.heroCat}`;
+
+      document.getElementById('displayBankName').textContent = config.bankName;
+      document.getElementById('displayAccountNum').textContent = config.accountNum;
+      document.getElementById('displayAccountHolder').textContent = config.accountHolder;
+      document.getElementById('displayQrImage').src = config.qrUrl;
+
+      renderCategoryTabs();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      renderCategoryTabs();
+      renderMovies();
+    }
+
+    function renderMovies() {
+      const q = (document.getElementById('searchInput').value || '').toLowerCase();
+      const grid = document.getElementById('moviesGrid');
+      const filtered = movies.filter(m => {
+        const matchCat = currentCategory === 'all' || (currentCategory === 'watchlist' ? watchlist.includes(m.id) : m.category === currentCategory);
+        const matchQ = m.title.toLowerCase().includes(q) || m.category.toLowerCase().includes(q);
+        return matchCat && matchQ;
+      });
+
+      document.getElementById('visibleMovieCount').textContent = filtered.length;
+
+      grid.innerHTML = filtered.map((m, idx) => {
+        const saved = watchlist.includes(m.id);
+        const pkgObj = config.packages.find(p => p.key === m.category);
+        const badgeIcon = pkgObj ? pkgObj.icon : '🎬';
+        return `
+          <div class="group bg-[#141821] border border-white/10 rounded-xl overflow-hidden hover:border-white/25 transition flex flex-col">
+            <div class="relative aspect-[2/3] overflow-hidden bg-black">
+              <img src="${m.img}" alt="${m.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-75">
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <div class="absolute top-2.5 left-2.5 flex flex-wrap gap-1">
+                ${m.vip 
+                  ? `<span class="px-2 py-0.5 rounded bg-amber-500 text-black font-extrabold text-[10px]">${badgeIcon} ${m.category}</span>` 
+                  : '<span class="px-2 py-0.5 rounded bg-emerald-500 text-black font-bold text-[10px]">Үнэгүй</span>'}
+              </div>
+              <button type="button" onclick="toggleWatchlist(${m.id})" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/70 text-white text-xs flex items-center justify-center hover:bg-red-600 transition">
+                ${saved ? '✓' : '+'}
+              </button>
+              <div class="absolute bottom-2.5 left-2.5 right-2.5">
+                <div class="text-[10px] text-amber-400 font-bold mb-0.5">#${m.id} • ${m.year}</div>
+                <h3 class="font-bold text-sm text-white leading-snug line-clamp-2 drop-shadow">${m.title}</h3>
+              </div>
+              <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition flex flex-col justify-center p-3 gap-2">
+                <button type="button" onclick="playMovie(${m.id}, 'full')" class="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs cursor-pointer">▶ Бүтэн үзэх</button>
+                <button type="button" onclick="playMovie(${m.id}, 'trailer')" class="w-full py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white font-semibold text-xs cursor-pointer">Трейлер</button>
+              </div>
+            </div>
+            <div class="px-3 py-2 flex items-center justify-between text-[11px] text-gray-400 bg-[#10131a]">
+              <span>${m.category}</span>
+              <span class="text-amber-400 font-semibold">★ ${m.rating}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleWatchlist(id) {
+      watchlist = watchlist.includes(id) ? watchlist.filter(x => x !== id) : [...watchlist, id];
+      localStorage.setItem('mf_watchlist', JSON.stringify(watchlist));
+      updateUiState();
+      renderMovies();
+    }
+
+    function openWatchlist() { currentCategory = 'watchlist'; renderMovies(); }
+
+    function playHeroMovie(mode) {
+      const heroObj = { title: config.heroTitle, category: config.heroCat, vip: true, full: config.heroFull, trailer: config.heroTrailer };
+      startPlayback(heroObj, mode);
+    }
+
+    function playMovie(id, mode) {
+      const m = movies.find(x => x.id === id);
+      if (m) startPlayback(m, mode);
+    }
+
+    function startPlayback(m, mode) {
+      if (mode === 'full' && m.vip && !hasPackageAccess(m.category)) {
+        openPackageModal(m.category);
+        return;
+      }
+      currentMovieObj = m;
+      const url = mode === 'trailer' ? (m.trailer || m.full) : m.full;
+      document.getElementById('playerTitle').textContent = mode === 'trailer' ? `${m.title} (Трейлер)` : m.title;
+      document.getElementById('playerSubtitle').textContent = `${m.category} багц • Монгол кино`;
+      document.getElementById('youtubeSearchFallback').href = m.ytSearchUrl || `https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' монгол кино')}`;
+      document.getElementById('videoFrame').src = url + (url.includes('?') ? '&autoplay=1' : '?autoplay=1');
+      document.getElementById('btnModeFull').className = mode === 'full' ? 'px-3 py-1.5 rounded bg-red-600 text-white font-semibold' : 'px-3 py-1.5 rounded bg-white/10 text-gray-300';
+      document.getElementById('btnModeTrailer').className = mode === 'trailer' ? 'px-3 py-1.5 rounded bg-red-600 text-white font-semibold' : 'px-3 py-1.5 rounded bg-white/10 text-gray-300';
+      openModal('playerModal');
+    }
+
+    function switchPlayerMode(mode) { if (currentMovieObj) startPlayback(currentMovieObj, mode); }
+
+    function selectPackage(pkgKey) {
+      const pkg = config.packages.find(p => p.key === pkgKey) || config.packages[0];
+      renderPackagesModalGrid(pkg.key);
+      document.getElementById('selectedPlanLabel').textContent = `${pkg.name} (${pkg.price})`;
+    }
+
+    function openPackageModal(highlightPkg) {
+      const box = document.getElementById('activePackagesBox');
+      if (unlockedPackages.length > 0) {
+        box.classList.remove('hidden');
+        const names = unlockedPackages.includes('ALL') ? 'Бүх багц (VIP)' : unlockedPackages.map(x => x + ' багц').join(', ');
+        document.getElementById('activePackagesText').textContent = `✓ Идэвхтэй эрх: ${names}`;
+      } else box.classList.add('hidden');
+
+      const found = config.packages.find(p => p.key === highlightPkg);
+      if (found) {
+        document.getElementById('packageHintText').textContent = `Энэ киног үзэхийн тулд "${found.name}" (${found.price}) эсвэл "БҮХ БАГЦ (VIP)" сонгоно уу.`;
+        selectPackage(found.key);
+      } else {
+        document.getElementById('packageHintText').textContent = `Сонирхсон ангиллын багцаа сонгоод 1 сар хязгааргүй үзээрэй`;
+        selectPackage(config.packages[0].key);
+      }
+      openModal('packageModal');
+    }
+
+    function openCodeModal() {
+      document.getElementById('codeErrorMsg').classList.add('hidden');
+      document.getElementById('unlockCodeInput').value = '';
+      openModal('codeModal');
+    }
+
+    function verifyUnlockCode() {
+      const val = document.getElementById('unlockCodeInput').value.trim().toUpperCase();
+      const matchedPkg = config.packages.find(p => p.code.toUpperCase() === val);
+      if (matchedPkg) {
+        if (!unlockedPackages.includes(matchedPkg.key)) {
+          unlockedPackages.push(matchedPkg.key);
+          localStorage.setItem('mf_unlocked_pkgs', JSON.stringify(unlockedPackages));
+        }
+        updateUiState();
+        closeModal('codeModal');
+        alert(`Амжилттай! Таны "${matchedPkg.name}" нээгдлээ.`);
+      } else document.getElementById('codeErrorMsg').classList.remove('hidden');
+    }
+
+    function deactivateAllPackages() {
+      unlockedPackages = [];
+      localStorage.removeItem('mf_unlocked_pkgs');
+      updateUiState();
+      closeModal('packageModal');
+    }
+
+    function openAdminAuth() {
+      document.getElementById('adminPinError').classList.add('hidden');
+      document.getElementById('adminPinInput').value = '';
+      openModal('adminAuthModal');
+      setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+    }
+
+    function checkAdminPin() {
+      const entered = document.getElementById('adminPinInput').value.trim().toUpperCase();
+      const currentPass = (config.pin || "ADMIN").trim().toUpperCase();
+      if (entered === currentPass) {
+        closeModal('adminAuthModal');
+        openAdminPanel();
+      } else {
+        document.getElementById('adminPinError').classList.remove('hidden');
+      }
+    }
+
+    function switchAdminTab(tab) {
+      document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('adminTab_' + tab).classList.remove('hidden');
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.className = btn.id === 'tabBtn_' + tab
+          ? "admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold"
+          : "admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold";
+      });
+    }
+
+    function populateCategorySelects() {
+      const nonAll = config.packages.filter(p => !p.isAll);
+      const optionsHtml = nonAll.map(p => `<option value="${p.key}">${p.icon} ${p.name}</option>`).join('');
+      document.getElementById('newMovieCat').innerHTML = optionsHtml;
+      document.getElementById('bulkMovieCat').innerHTML = optionsHtml;
+      document.getElementById('cfgHeroCat').innerHTML = optionsHtml;
+    }
+
+    function renderAdminPackagesGrid() {
+      const grid = document.getElementById('adminPackagesGrid');
+      grid.innerHTML = config.packages.map((p, idx) => `
+        <div class="p-3.5 rounded-xl ${p.isAll ? 'bg-red-600/10 border border-red-500/30' : 'bg-white/5 border border-white/10'} space-y-2">
+          <div class="font-bold ${p.isAll ? 'text-red-400' : 'text-amber-400'}">${p.icon} ${p.name}</div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <div>
+              <label class="text-gray-400 block text-[11px]">Үнэ</label>
+              <input id="admPkgPrice_${idx}" type="text" value="${p.price}" class="w-full bg-black/50 border border-white/15 rounded px-2 py-1 text-white">
+            </div>
+            <div>
+              <label class="text-gray-400 block text-[11px]">SMS Код</label>
+              <input id="admPkgCode_${idx}" type="text" value="${p.code}" class="w-full bg-black/50 border border-white/15 rounded px-2 py-1 font-mono text-amber-400 font-bold">
+            </div>
+          </div>
+          <button type="button" onclick="copySmsTemplate('${p.name}', 'admPkgCode_${idx}')" class="w-full py-1.5 rounded bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 font-semibold">📩 SMS хуулах</button>
+        </div>
+      `).join('');
+    }
+
+    function openAdminPanel() {
+      populateCategorySelects();
+      renderAdminPackagesGrid();
+
+      document.getElementById('cfgHeroTitle').value = config.heroTitle;
+      document.getElementById('cfgHeroCat').value = config.heroCat;
+      document.getElementById('cfgHeroDesc').value = config.heroDesc;
+      document.getElementById('cfgHeroImg').value = config.heroImg;
+      document.getElementById('cfgHeroFull').value = config.heroFull;
+
+      document.getElementById('cfgBankName').value = config.bankName;
+      document.getElementById('cfgAccountNum').value = config.accountNum;
+      document.getElementById('cfgAccountHolder').value = config.accountHolder;
+      document.getElementById('cfgAdminPin').value = config.pin;
+
+      updateAdminBypassBtn();
+      renderAdminMoviesList();
+      openModal('adminPanelModal');
+    }
+
+    function renderAdminMoviesList() {
+      const q = (document.getElementById('adminSearchMovie')?.value || '').toLowerCase();
+      const list = movies.filter(m => m.title.toLowerCase().includes(q) || m.category.toLowerCase().includes(q));
+      document.getElementById('adminMovieCount').textContent = movies.length;
+
+      document.getElementById('adminMoviesList').innerHTML = list.map(m => {
+        const hasDirectYt = extractYoutubeId(m.full) !== null;
+        return `
+          <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-black/40 border border-white/10">
+            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+              <img src="${m.img}" class="w-9 h-12 object-cover rounded shrink-0">
+              <div class="min-w-0">
+                <div class="font-bold text-white truncate">#${m.id} ${m.title} <span class="text-amber-400">[${m.category}]</span></div>
+                <div class="text-[11px] ${hasDirectYt ? 'text-emerald-400' : 'text-gray-400'}">
+                  ${hasDirectYt ? '✓ Шууд YouTube линк холбогдсон' : '🔍 Автомат YouTube хайлт'}
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' монгол кино')}" target="_blank" class="px-2.5 py-1.5 rounded bg-white/10 hover:bg-white/20 text-gray-200 font-semibold">🔍 YouTube хайх</a>
+              <button type="button" onclick="editMovieLink(${m.id})" class="px-2.5 py-1.5 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black font-semibold">🔗 Линк засах</button>
+              <button type="button" onclick="deleteMovie(${m.id})" class="px-2.5 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-semibold">Устгах</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function editMovieLink(id) {
+      const m = movies.find(x => x.id === id);
+      if (!m) return;
+      const newUrl = prompt(`"${m.title}" киноны YouTube эсвэл Google Drive линкийг хуулж оруулна уу:`, m.full.includes('listType=search') ? '' : m.full);
+      if (newUrl && newUrl.trim()) {
+        m.full = formatEmbedUrl(newUrl.trim());
+        const ytId = extractYoutubeId(newUrl.trim());
+        if (ytId) m.img = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+        localStorage.setItem('mf_movies_100_v1', JSON.stringify(movies));
+        renderAdminMoviesList();
+        renderMovies();
+        alert(`"${m.title}" киноны линк ба постер шинэчлэгдлээ!`);
+      }
+    }
+
+    function addNewMovie() {
+      const title = document.getElementById('newMovieTitle').value.trim();
+      const cat = document.getElementById('newMovieCat').value;
+      const rawUrl = document.getElementById('newMovieFull').value.trim();
+      if (!title || !rawUrl) { alert("Киноны нэр болон линкээ оруулна уу!"); return; }
+
+      const newObj = {
+        id: movies.length + 1,
+        title: title,
+        category: cat,
+        year: 2026,
+        rating: "9.2",
+        vip: true,
+        img: getAutoPoster(rawUrl, movies.length),
+        full: formatEmbedUrl(rawUrl),
+        trailer: formatEmbedUrl(rawUrl)
+      };
+
+      movies.unshift(newObj);
+      localStorage.setItem('mf_movies_100_v1', JSON.stringify(movies));
+      document.getElementById('newMovieTitle').value = '';
+      document.getElementById('newMovieFull').value = '';
+      renderAdminMoviesList();
+      renderMovies();
+      alert(`"${title}" амжилттай нэмэгдлээ!`);
+    }
+
+    function bulkImportYoutube() {
+      const raw = document.getElementById('bulkYoutubeInput').value.trim();
+      const cat = document.getElementById('bulkMovieCat').value;
+      const isVip = document.getElementById('bulkMovieVip').value === 'true';
+      if (!raw) { alert("YouTube линкүүдээ хуулж оруулна уу!"); return; }
+
+      const lines = raw.split('\n').map(x => x.trim()).filter(Boolean);
+      let addedCount = 0;
+
+      lines.forEach((line, i) => {
+        let title = "", url = "";
+        if (line.includes('|')) {
+          const parts = line.split('|');
+          title = parts[0].trim();
+          url = parts[1].trim();
+        } else {
+          url = line;
+          title = `${cat} кино #${movies.length + i + 1}`;
+        }
+
+        if (url) {
+          movies.unshift({
+            id: Date.now() + i,
+            title: title,
+            category: cat,
+            year: 2026,
+            rating: "9.0",
+            vip: isVip,
+            img: getAutoPoster(url, i),
+            full: formatEmbedUrl(url),
+            trailer: formatEmbedUrl(url)
+          });
+          addedCount++;
+        }
+      });
+
+      localStorage.setItem('mf_movies_100_v1', JSON.stringify(movies));
+      document.getElementById('bulkYoutubeInput').value = '';
+      updateUiState();
+      renderAdminMoviesList();
+      renderMovies();
+      alert(`Амжилттай! Нийт ${addedCount} кино постер зурагтайгаа автоматаар нэмэгдлээ.`);
+      switchAdminTab('movies');
+    }
+
+    function deleteMovie(id) {
+      if (!confirm("Энэ киног устгах уу?")) return;
+      movies = movies.filter(m => m.id !== id);
+      localStorage.setItem('mf_movies_100_v1', JSON.stringify(movies));
+      updateUiState();
+      renderAdminMoviesList();
+      renderMovies();
+    }
+
+    function copySmsTemplate(pkgLabel, codeInputId) {
+      const code = document.getElementById(codeInputId).value.trim().toUpperCase();
+      const msg = `MongolFlix: Tanii "${pkgLabel}" idevhjlee. Nevtreh nuuts kod: ${code}`;
+      navigator.clipboard.writeText(msg);
+      alert('Мессеж хуулагдлаа:\n\n' + msg);
+    }
+
+    function updateAdminBypassBtn() {
+      const btn = document.getElementById('toggleAdminBypassBtn');
+      btn.textContent = adminBypass ? 'Унтраах (Идэвхтэй)' : 'Асаах';
+      btn.className = adminBypass ? 'px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold' : 'px-4 py-2 rounded-lg bg-red-600 text-white font-bold';
+    }
+
+    function toggleAdminBypass() {
+      adminBypass = !adminBypass;
+      localStorage.setItem('mf_admin_bypass', adminBypass);
+      updateAdminBypassBtn();
+      updateUiState();
+    }
+
+    function uploadQrFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => { config.qrUrl = evt.target.result; document.getElementById('displayQrImage').src = config.qrUrl; };
+      reader.readAsDataURL(file);
+    }
+
+    function saveAdminSettings() {
+      config.packages.forEach((p, idx) => {
+        const priceEl = document.getElementById('admPkgPrice_' + idx);
+        const codeEl = document.getElementById('admPkgCode_' + idx);
+        if (priceEl) p.price = priceEl.value.trim() || p.price;
+        if (codeEl) p.code = codeEl.value.trim().toUpperCase() || p.code;
+      });
+
+      config.heroTitle = document.getElementById('cfgHeroTitle').value.trim() || DEFAULT_CFG.heroTitle;
+      config.heroCat = document.getElementById('cfgHeroCat').value;
+      config.heroDesc = document.getElementById('cfgHeroDesc').value.trim() || DEFAULT_CFG.heroDesc;
+      config.heroImg = document.getElementById('cfgHeroImg').value.trim() || DEFAULT_CFG.heroImg;
+      config.heroFull = formatEmbedUrl(document.getElementById('cfgHeroFull').value.trim()) || DEFAULT_CFG.heroFull;
+
+      config.bankName = document.getElementById('cfgBankName').value.trim() || "Голомт Банк";
+      config.accountNum = document.getElementById('cfgAccountNum').value.trim() || "150015002205208876";
+      config.accountHolder = document.getElementById('cfgAccountHolder').value.trim() || "MongolFlix";
+      config.pin = document.getElementById('cfgAdminPin').value.trim().toUpperCase() || "ADMIN";
+
+      localStorage.setItem('mf_config_v4', JSON.stringify(config));
+      updateUiState();
+      renderMovies();
+      closeModal('adminPanelModal');
+      alert('Бүх өөрчлөлт хадгалагдлаа!');
+    }
+
+    function exportBackup() {
+      const data = JSON.stringify({ movies, config }, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "mongolflix-100movies-backup.json";
+      a.click();
+    }
+
+    function importBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.movies) { movies = parsed.movies; localStorage.setItem('mf_movies_100_v1', JSON.stringify(movies)); }
+          if (parsed.config) { config = { ...DEFAULT_CFG, ...parsed.config }; localStorage.setItem('mf_config_v4', JSON.stringify(config)); }
+          updateUiState();
+          renderMovies();
+          openAdminPanel();
+          alert("Өгөгдөл амжилттай сэргээгдлээ!");
+        } catch (err) { alert("Файл буруу байна!"); }
+      };
+      reader.readAsText(file);
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+      if (id === 'playerModal') document.getElementById('videoFrame').src = '';
+    }
+
+    updateUiState();
+    renderMovies();
+  </script>
+</body>
+</html>
