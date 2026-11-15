@@ -14,11 +14,11 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
 
-  <!-- Дээд цэс (Navbar) -->
-  <header class="sticky top-0 z-40 bg-[#0b0d12]/90 backdrop-blur-md border-b border-white/10">
+  <!-- Дээд цэс (Navbar - Хамгийн дээд давхарга z-50) -->
+  <header class="sticky top-0 z-50 bg-[#0b0d12]/95 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
       <div class="flex items-center gap-6">
-        <button id="brandLogo" type="button" onclick="handleLogoClick()" class="flex items-center gap-2 text-left select-none focus:outline-none group">
+        <button id="brandLogo" type="button" onclick="handleLogoClick()" class="flex items-center gap-2 text-left select-none focus:outline-none group cursor-pointer">
           <span class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/30 group-active:scale-95 transition">
             <svg class="w-4 h-4 text-white fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </span>
@@ -28,9 +28,9 @@
         </button>
 
         <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-gray-300">
-          <button onclick="filterCategory('all')" class="hover:text-white transition">Нүүр</button>
-          <button onclick="openPackageModal()" class="hover:text-amber-400 transition">Бүх багцууд</button>
-          <button onclick="openWatchlist()" class="hover:text-white transition flex items-center gap-1.5">
+          <button type="button" onclick="filterCategory('all')" class="hover:text-white transition cursor-pointer">Нүүр</button>
+          <button type="button" onclick="openPackageModal()" class="hover:text-amber-400 transition cursor-pointer">Бүх багцууд</button>
+          <button type="button" onclick="openWatchlist()" class="hover:text-white transition flex items-center gap-1.5 cursor-pointer">
             Миний жагсаалт
             <span id="watchlistCount" class="px-1.5 py-0.5 text-xs bg-red-600 text-white rounded-full">0</span>
           </button>
@@ -44,20 +44,20 @@
           <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
 
-        <button id="vipStatusBtn" onclick="openPackageModal()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20">
+        <button type="button" id="vipStatusBtn" onclick="openPackageModal()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 cursor-pointer">
           <span>👑</span> <span id="vipStatusText">Багц авах</span>
         </button>
 
-        <button onclick="openAdminAuth()" title="Админ удирдлага" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <button type="button" id="adminLockBtn" onclick="openAdminAuth()" title="Админ удирдлага" class="p-2.5 rounded-lg bg-white/10 hover:bg-red-600 border border-white/15 text-gray-200 hover:text-white transition cursor-pointer relative z-50">
+          <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Онцлох кино (Hero Banner) -->
-  <section class="relative overflow-hidden border-b border-white/10">
-    <div class="absolute inset-0 bg-gradient-to-r from-[#0b0d12] via-[#0b0d12]/85 to-transparent z-10"></div>
+  <section class="relative overflow-hidden border-b border-white/10 z-10">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0b0d12] via-[#0b0d12]/85 to-transparent z-10 pointer-events-none"></div>
     <img id="heroBannerImg" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600&q=80" alt="Hero" class="w-full h-[420px] sm:h-[460px] object-cover opacity-50">
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-20 -mt-[370px] sm:-mt-[400px] pb-12">
@@ -75,11 +75,11 @@
         </p>
 
         <div class="flex flex-wrap items-center gap-3">
-          <button onclick="playHeroMovie('full')" class="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black font-bold text-sm flex items-center gap-2 transition">
+          <button type="button" onclick="playHeroMovie('full')" class="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black font-bold text-sm flex items-center gap-2 transition cursor-pointer">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             Бүтэн кино үзэх
           </button>
-          <button onclick="playHeroMovie('trailer')" class="px-5 py-2.5 rounded-lg bg-white/15 hover:bg-white/25 text-white font-semibold text-sm backdrop-blur transition">
+          <button type="button" onclick="playHeroMovie('trailer')" class="px-5 py-2.5 rounded-lg bg-white/15 hover:bg-white/25 text-white font-semibold text-sm backdrop-blur transition cursor-pointer">
             Трейлер (Үнэгүй)
           </button>
         </div>
@@ -95,10 +95,10 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button onclick="openCodeModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 transition">
+          <button type="button" onclick="openCodeModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 transition cursor-pointer">
             🔒 Код оруулах
           </button>
-          <button onclick="openPackageModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition">
+          <button type="button" onclick="openPackageModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition cursor-pointer">
             Багц сонгох
           </button>
         </div>
@@ -115,7 +115,7 @@
   <!-- Доод хэсэг -->
   <footer class="border-t border-white/10 py-6 px-4 text-center text-xs text-gray-500 flex items-center justify-between max-w-7xl mx-auto w-full">
     <span>© 2026 MongolFlix. Бүх эрх хуулиар хамгаалагдсан.</span>
-    <button onclick="openAdminAuth()" class="text-gray-600 hover:text-gray-300 flex items-center gap-1 transition">
+    <button type="button" onclick="openAdminAuth()" class="text-gray-400 hover:text-white flex items-center gap-1 transition cursor-pointer">
       <span>🔐 Админ</span>
     </button>
   </footer>
@@ -128,7 +128,7 @@
           <h3 id="playerTitle" class="font-bold text-white text-base">Киноны нэр</h3>
           <p id="playerSubtitle" class="text-xs text-gray-400">Монгол дуу оруулалт • HD</p>
         </div>
-        <button onclick="closeModal('playerModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">✕</button>
+        <button type="button" onclick="closeModal('playerModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">✕</button>
       </div>
       <div class="aspect-video bg-black relative">
         <iframe id="videoFrame" class="w-full h-full" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
@@ -140,8 +140,8 @@
       <div class="p-4 bg-[#0f1219] flex flex-wrap items-center justify-between gap-3 text-xs border-t border-white/5">
         <div class="flex items-center gap-2">
           <span class="text-gray-400">Горим:</span>
-          <button id="btnModeFull" onclick="switchPlayerMode('full')" class="px-3 py-1.5 rounded bg-red-600 text-white font-semibold">Бүтэн кино</button>
-          <button id="btnModeTrailer" onclick="switchPlayerMode('trailer')" class="px-3 py-1.5 rounded bg-white/10 text-gray-300">Трейлер</button>
+          <button type="button" id="btnModeFull" onclick="switchPlayerMode('full')" class="px-3 py-1.5 rounded bg-red-600 text-white font-semibold">Бүтэн кино</button>
+          <button type="button" id="btnModeTrailer" onclick="switchPlayerMode('trailer')" class="px-3 py-1.5 rounded bg-white/10 text-gray-300">Трейлер</button>
         </div>
         <div class="text-gray-400">Дуу: <span class="text-white font-medium">Монгол</span> • Хадмал: <span class="text-white font-medium">Монгол</span></div>
       </div>
@@ -156,19 +156,16 @@
           <h2 class="text-xl font-bold text-white">👑 Кино Багц Сонгох</h2>
           <p id="packageHintText" class="text-xs text-amber-400 mt-0.5">Сонирхсон ангиллын багцаа сонгоод 1 сар хязгааргүй үзээрэй</p>
         </div>
-        <button onclick="closeModal('packageModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white shrink-0">✕</button>
+        <button type="button" onclick="closeModal('packageModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white shrink-0">✕</button>
       </div>
 
-      <!-- Идэвхтэй багцууд -->
       <div id="activePackagesBox" class="hidden mb-4 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex flex-wrap items-center justify-between gap-2">
         <span id="activePackagesText">Идэвхтэй багц: ...</span>
-        <button onclick="deactivateAllPackages()" class="underline text-emerald-200 hover:text-white">Бүх эрхийг цуцлах</button>
+        <button type="button" onclick="deactivateAllPackages()" class="underline text-emerald-200 hover:text-white">Бүх эрхийг цуцлах</button>
       </div>
 
-      <!-- Багцуудын жагсаалт (Динамик) -->
       <div id="packagesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 mb-6"></div>
 
-      <!-- Банкны мэдээлэл -->
       <div class="p-4 rounded-xl bg-[#0b0d12] border border-white/10 flex flex-col sm:flex-row items-center gap-5">
         <div class="w-36 h-36 bg-white rounded-xl p-2 flex items-center justify-center shrink-0 overflow-hidden">
           <img id="displayQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=MONGOLFLIX-PAYMENT" alt="Bank QR" class="w-full h-full object-contain">
@@ -185,7 +182,7 @@
             Данс: <span id="displayAccountNum" class="font-bold text-amber-400">150015002205208876</span> (<span id="displayAccountHolder">MongolFlix</span>)
           </div>
           <div class="pt-1">
-            <button onclick="closeModal('packageModal'); openCodeModal();" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
+            <button type="button" onclick="closeModal('packageModal'); openCodeModal();" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
               Мессежээр ирсэн кодоо оруулах →
             </button>
           </div>
@@ -199,48 +196,48 @@
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-lg font-bold text-white">🔑 Багцын код оруулах</h3>
-        <button onclick="closeModal('codeModal')" class="w-7 h-7 rounded bg-white/10 text-white">✕</button>
+        <button type="button" onclick="closeModal('codeModal')" class="w-7 h-7 rounded bg-white/10 text-white">✕</button>
       </div>
       <p class="text-xs text-gray-400 mb-4">Таны утсанд мессежээр ирсэн багцын нууц кодыг доор бичнэ үү.</p>
       <input id="unlockCodeInput" type="text" placeholder="Жишээ: MONGOL39" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-center text-lg font-mono uppercase tracking-widest text-white mb-3 focus:outline-none focus:border-amber-500">
       <p id="codeErrorMsg" class="text-xs text-red-400 mb-3 hidden">Код буруу байна. Шалгаад дахин оруулна уу.</p>
-      <button onclick="verifyUnlockCode()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition">
+      <button type="button" onclick="verifyUnlockCode()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition">
         Багц нээх
       </button>
     </div>
   </div>
 
-  <!-- 4. Админ PIN -->
-  <div id="adminAuthModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+  <!-- 4. Админ Үсгэн Нууц Үг Нэвтрэх Цонх -->
+  <div id="adminAuthModal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-xs w-full p-6 shadow-2xl text-center">
       <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center mx-auto mb-3 text-xl">🔐</div>
       <h3 class="text-base font-bold text-white mb-1">Админ удирдлага</h3>
-      <p class="text-xs text-gray-400 mb-4">Нууц PIN кодоо оруулна уу (Анхны код: 1234)</p>
-      <input id="adminPinInput" type="password" maxlength="8" placeholder="••••" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-2.5 text-center text-xl tracking-widest text-white mb-3 focus:outline-none focus:border-red-500">
-      <p id="adminPinError" class="text-xs text-red-400 mb-3 hidden">PIN код буруу байна!</p>
+      <p class="text-xs text-gray-400 mb-4">Үсгэн нууц үгээ оруулна уу (Анхны код: <span class="text-amber-400 font-mono font-bold">ADMIN</span>)</p>
+      <input id="adminPinInput" type="text" maxlength="20" onkeydown="if(event.key==='Enter') checkAdminPin()" placeholder="Нууц үг..." class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-2.5 text-center text-base font-mono uppercase tracking-widest text-white mb-3 focus:outline-none focus:border-red-500">
+      <p id="adminPinError" class="text-xs text-red-400 mb-3 hidden">Нууц үг буруу байна!</p>
       <div class="flex gap-2">
-        <button onclick="closeModal('adminAuthModal')" class="flex-1 py-2 rounded-lg bg-white/10 text-gray-300 text-xs font-semibold">Хаах</button>
-        <button onclick="checkAdminPin()" class="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold">Нэвтрэх</button>
+        <button type="button" onclick="closeModal('adminAuthModal')" class="flex-1 py-2 rounded-lg bg-white/10 text-gray-300 text-xs font-semibold">Хаах</button>
+        <button type="button" onclick="checkAdminPin()" class="flex-1 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold">Нэвтрэх</button>
       </div>
     </div>
   </div>
 
   <!-- 5. Админ Удирдлагын Төв -->
-  <div id="adminPanelModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="adminPanelModal" class="fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-4xl w-full p-6 shadow-2xl my-8 max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 shrink-0">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center gap-2">🛡️ Админ Удирдлагын Төв</h2>
           <p class="text-xs text-gray-400">Олон төрлийн багц, SMS код болон кино сангийн бүрэн удирдлага</p>
         </div>
-        <button onclick="closeModal('adminPanelModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white">✕</button>
+        <button type="button" onclick="closeModal('adminPanelModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white">✕</button>
       </div>
 
       <div class="flex gap-2 overflow-x-auto pb-3 mb-4 border-b border-white/10 shrink-0 text-xs">
-        <button onclick="switchAdminTab('movies')" id="tabBtn_movies" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold">🎬 Кино нэмэх / Устгах</button>
-        <button onclick="switchAdminTab('plans')" id="tabBtn_plans" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">💰 Багцууд & SMS код</button>
-        <button onclick="switchAdminTab('hero')" id="tabBtn_hero" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">⭐ Онцлох кино</button>
-        <button onclick="switchAdminTab('bank')" id="tabBtn_bank" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">🏦 Данс & Нөөцлөх</button>
+        <button type="button" onclick="switchAdminTab('movies')" id="tabBtn_movies" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold">🎬 Кино нэмэх / Устгах</button>
+        <button type="button" onclick="switchAdminTab('plans')" id="tabBtn_plans" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">💰 Багцууд & SMS код</button>
+        <button type="button" onclick="switchAdminTab('hero')" id="tabBtn_hero" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">⭐ Онцлох кино</button>
+        <button type="button" onclick="switchAdminTab('bank')" id="tabBtn_bank" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">🏦 Данс & Нууц үг</button>
       </div>
 
       <div class="overflow-y-auto flex-1 pr-1 space-y-5 text-xs">
@@ -292,7 +289,7 @@
                 </div>
               </div>
             </div>
-            <button onclick="addNewMovie()" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+            <button type="button" onclick="addNewMovie()" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
               + Жагсаалтад нэмэх
             </button>
           </div>
@@ -310,10 +307,9 @@
               <div class="font-bold text-white text-sm">Админ эрхээр бүх киног шууд үзэх</div>
               <div class="text-gray-400">Төлбөр төлөхгүйгээр бүх багцын киног шалгаж үзэх горим</div>
             </div>
-            <button id="toggleAdminBypassBtn" onclick="toggleAdminBypass()" class="px-4 py-2 rounded-lg bg-red-600 text-white font-bold">Асаах</button>
+            <button type="button" id="toggleAdminBypassBtn" onclick="toggleAdminBypass()" class="px-4 py-2 rounded-lg bg-red-600 text-white font-bold">Асаах</button>
           </div>
 
-          <!-- Шинэ багц нэмэх хэсэг -->
           <div class="p-4 rounded-xl bg-white/5 border border-white/10">
             <div class="font-bold text-white text-sm mb-2.5">➕ Шинэ багцын төрөл нэмэх</div>
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -321,11 +317,10 @@
               <input id="newPkgName" type="text" placeholder="Багцын нэр (Баримтат)" class="bg-black/50 border border-white/15 rounded-lg px-2.5 py-2 text-white">
               <input id="newPkgDesc" type="text" placeholder="Тайлбар (Түүх, шинжлэх ухаан)" class="bg-black/50 border border-white/15 rounded-lg px-2.5 py-2 text-white">
               <input id="newPkgPrice" type="text" placeholder="Үнэ (3,900₮)" value="3,900₮" class="bg-black/50 border border-white/15 rounded-lg px-2.5 py-2 text-white">
-              <button onclick="addNewPackageType()" class="rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold px-3 py-2 transition">+ Багц нэмэх</button>
+              <button type="button" onclick="addNewPackageType()" class="rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold px-3 py-2 transition">+ Багц нэмэх</button>
             </div>
           </div>
 
-          <!-- Бүх багцын жагсаалт -->
           <div id="adminPackagesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
         </div>
 
@@ -371,10 +366,10 @@
           </div>
         </div>
 
-        <!-- ТАБ 4: Банкны данс, QR & Нөөцлөх -->
+        <!-- ТАБ 4: Банкны данс, QR & Үсгэн нууц үг -->
         <div id="adminTab_bank" class="admin-tab-content hidden space-y-4">
           <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
-            <div class="font-bold text-white text-sm">🏦 Банкны данс ба QR зураг</div>
+            <div class="font-bold text-white text-sm">🏦 Банкны данс ба Админ үсгэн нууц үг</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="text-gray-400 block mb-1">Банкны нэр</label>
@@ -395,8 +390,8 @@
                 <input type="file" accept="image/*" onchange="uploadQrFile(event)" class="w-full text-gray-300 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-white/10 file:text-white">
               </div>
               <div>
-                <label class="text-gray-400 block mb-1">Админ PIN код солих</label>
-                <input id="cfgAdminPin" type="text" class="w-full bg-black/40 border border-white/15 rounded px-3 py-2 text-white font-mono">
+                <label class="text-amber-400 font-semibold block mb-1">Админ үсгэн нууц үг солих (Жишээ: ADMIN, MONGOL)</label>
+                <input id="cfgAdminPin" type="text" maxlength="20" class="w-full bg-black/40 border border-amber-500/40 rounded px-3 py-2 text-white font-mono uppercase">
               </div>
             </div>
           </div>
@@ -407,7 +402,7 @@
               <div class="text-gray-400">Өөр төхөөрөмж рүү шилжүүлэх бол файлаар татаж авна уу</div>
             </div>
             <div class="flex gap-2">
-              <button onclick="exportBackup()" class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold">⬇️ Татаж авах</button>
+              <button type="button" onclick="exportBackup()" class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold">⬇️ Татаж авах</button>
               <label class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer">
                 ⬆️ Сэргээх
                 <input type="file" accept=".json" onchange="importBackup(event)" class="hidden">
@@ -418,7 +413,7 @@
       </div>
 
       <div class="pt-4 mt-4 border-t border-white/10 flex justify-end gap-3 shrink-0">
-        <button onclick="saveAdminSettings()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-lg shadow-emerald-600/20">
+        <button type="button" onclick="saveAdminSettings()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-lg shadow-emerald-600/20">
           Бүх өөрчлөлтийг хадгалах
         </button>
       </div>
@@ -450,7 +445,7 @@
     ];
 
     const DEFAULT_CFG = {
-      pin: "1234",
+      pin: "ADMIN",
       packages: DEFAULT_PACKAGES,
       bankName: "Голомт Банк",
       accountNum: "150015002205208876",
@@ -466,7 +461,7 @@
     };
 
     let movies = JSON.parse(localStorage.getItem('mf_movies_v3')) || DEFAULT_MOVIES;
-    let savedCfg = JSON.parse(localStorage.getItem('mf_config_v3')) || {};
+    let savedCfg = JSON.parse(localStorage.getItem('mf_config_v4')) || {};
     let config = {
       ...DEFAULT_CFG,
       ...savedCfg,
@@ -496,9 +491,9 @@
     function renderCategoryTabs() {
       const container = document.getElementById('categoryTabs');
       const nonAllPkgs = config.packages.filter(p => !p.isAll);
-      let html = `<button onclick="filterCategory('all')" data-cat="all" class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === 'all' ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">Бүгд</button>`;
+      let html = `<button type="button" onclick="filterCategory('all')" data-cat="all" class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === 'all' ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">Бүгд</button>`;
       html += nonAllPkgs.map(p => `
-        <button onclick="filterCategory('${p.key}')" data-cat="${p.key}" class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === p.key ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">
+        <button type="button" onclick="filterCategory('${p.key}')" data-cat="${p.key}" class="cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold ${currentCategory === p.key ? 'bg-red-600 text-white' : 'bg-white/5 text-gray-300 hover:bg-white/10'}">
           ${p.icon} ${p.name}
         </button>
       `).join('');
@@ -530,14 +525,14 @@
       const statusText = document.getElementById('vipStatusText');
       if (adminBypass) {
         statusText.textContent = "🛡️ Админ горим";
-        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5";
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-red-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
       } else if (unlockedPackages.length > 0) {
         const label = unlockedPackages.includes('ALL') ? "Бүх багц VIP" : unlockedPackages.join(", ");
         statusText.textContent = "✓ " + label;
-        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5";
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
       } else {
         statusText.textContent = `Багц авах (${config.packages.length} төрөл)`;
-        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5";
+        statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
       }
 
       document.getElementById('heroTitle').textContent = config.heroTitle;
@@ -585,12 +580,12 @@
                   : '<span class="px-2 py-0.5 rounded bg-emerald-500 text-black font-bold text-[10px]">Үнэгүй</span>'}
                 ${isSeries ? `<span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px]">${(m.episodes || []).length} анги</span>` : ''}
               </div>
-              <button onclick="toggleWatchlist(${m.id})" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition">
+              <button type="button" onclick="toggleWatchlist(${m.id})" class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition">
                 ${saved ? '✓' : '+'}
               </button>
               <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-3 gap-2">
-                <button onclick="playMovie(${m.id}, 'full')" class="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs">▶ ${isSeries ? 'Ангиуд үзэх' : 'Бүтэн үзэх'}</button>
-                <button onclick="playMovie(${m.id}, 'trailer')" class="w-full py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white font-semibold text-xs">Трейлер</button>
+                <button type="button" onclick="playMovie(${m.id}, 'full')" class="w-full py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs">▶ ${isSeries ? 'Ангиуд үзэх' : 'Бүтэн үзэх'}</button>
+                <button type="button" onclick="playMovie(${m.id}, 'trailer')" class="w-full py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white font-semibold text-xs">Трейлер</button>
               </div>
             </div>
             <div class="p-3 flex-1 flex flex-col justify-between">
@@ -644,7 +639,7 @@
         url = m.episodes[epIndex] || m.episodes[0];
         document.getElementById('playerTitle').textContent = `${m.title} — ${epIndex + 1}-р анги`;
         epList.innerHTML = m.episodes.map((_, idx) => `
-          <button onclick="startPlayback(currentMovieObj, 'full', ${idx})" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ${idx === epIndex ? 'bg-red-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'}">
+          <button type="button" onclick="startPlayback(currentMovieObj, 'full', ${idx})" class="px-3 py-1.5 rounded-lg text-xs font-bold transition ${idx === epIndex ? 'bg-red-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'}">
             ${idx + 1}-р анги
           </button>
         `).join('');
@@ -715,18 +710,22 @@
       closeModal('packageModal');
     }
 
-    // Админ удирдлага
     function openAdminAuth() {
       document.getElementById('adminPinError').classList.add('hidden');
       document.getElementById('adminPinInput').value = '';
       openModal('adminAuthModal');
+      setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
     }
 
     function checkAdminPin() {
-      if (document.getElementById('adminPinInput').value.trim() === config.pin) {
+      const entered = document.getElementById('adminPinInput').value.trim().toUpperCase();
+      const currentPass = (config.pin || "ADMIN").trim().toUpperCase();
+      if (entered === currentPass) {
         closeModal('adminAuthModal');
         openAdminPanel();
-      } else document.getElementById('adminPinError').classList.remove('hidden');
+      } else {
+        document.getElementById('adminPinError').classList.remove('hidden');
+      }
     }
 
     function switchAdminTab(tab) {
@@ -758,7 +757,7 @@
         <div class="p-3.5 rounded-xl ${p.isAll ? 'bg-red-600/10 border border-red-500/30' : 'bg-white/5 border border-white/10'} space-y-2">
           <div class="flex items-center justify-between">
             <div class="font-bold ${p.isAll ? 'text-red-400' : 'text-amber-400'}">${p.icon} ${p.name}</div>
-            ${!p.isAll ? `<button onclick="deletePackageType(${idx})" class="text-[11px] text-red-400 hover:text-red-300">Устгах</button>` : ''}
+            ${!p.isAll ? `<button type="button" onclick="deletePackageType(${idx})" class="text-[11px] text-red-400 hover:text-red-300">Устгах</button>` : ''}
           </div>
           <div class="grid grid-cols-2 gap-1.5">
             <div>
@@ -769,11 +768,11 @@
               <label class="text-gray-400 block text-[11px]">SMS Код</label>
               <div class="flex gap-1">
                 <input id="admPkgCode_${idx}" type="text" value="${p.code}" class="w-full bg-black/50 border border-white/15 rounded px-2 py-1 font-mono text-amber-400 font-bold">
-                <button onclick="genRandomCode('admPkgCode_${idx}')" class="px-1.5 rounded bg-white/10 hover:bg-white/20 text-white">🎲</button>
+                <button type="button" onclick="genRandomCode('admPkgCode_${idx}')" class="px-1.5 rounded bg-white/10 hover:bg-white/20 text-white">🎲</button>
               </div>
             </div>
           </div>
-          <button onclick="copySmsTemplate('${p.name}', 'admPkgCode_${idx}')" class="w-full py-1.5 rounded bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 font-semibold">📩 SMS хуулах</button>
+          <button type="button" onclick="copySmsTemplate('${p.name}', 'admPkgCode_${idx}')" class="w-full py-1.5 rounded bg-emerald-600/20 text-emerald-300 hover:bg-emerald-600/30 font-semibold">📩 SMS хуулах</button>
         </div>
       `).join('');
     }
@@ -789,7 +788,6 @@
       let code = "";
       for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
 
-      // ALL багцын өмнө оруулна
       const allIndex = config.packages.findIndex(p => p.isAll);
       const newPkg = { key: name, icon, name: name + " багц", desc, price, code };
       if (allIndex >= 0) config.packages.splice(allIndex, 0, newPkg);
@@ -842,7 +840,7 @@
               <div class="text-gray-400 text-[11px]">${m.year} ${m.episodes ? `• ${m.episodes.length} анги` : ''}</div>
             </div>
           </div>
-          <button onclick="deleteMovie(${m.id})" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-semibold shrink-0 transition">Устгах</button>
+          <button type="button" onclick="deleteMovie(${m.id})" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-semibold shrink-0 transition">Устгах</button>
         </div>
       `).join('');
     }
@@ -934,7 +932,7 @@
     }
 
     function genRandomCode(inputId) {
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
       let res = "";
       for (let i = 0; i < 6; i++) res += chars[Math.floor(Math.random() * chars.length)];
       document.getElementById(inputId).value = res;
@@ -949,4 +947,95 @@
 
     function updateAdminBypassBtn() {
       const btn = document.getElementById('toggleAdminBypassBtn');
-      btn.text
+      btn.textContent = adminBypass ? 'Унтраах (Идэвхтэй)' : 'Асаах';
+      btn.className = adminBypass ? 'px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold' : 'px-4 py-2 rounded-lg bg-red-600 text-white font-bold';
+    }
+
+    function toggleAdminBypass() {
+      adminBypass = !adminBypass;
+      localStorage.setItem('mf_admin_bypass', adminBypass);
+      updateAdminBypassBtn();
+      updateUiState();
+    }
+
+    function uploadQrFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => { config.qrUrl = evt.target.result; document.getElementById('displayQrImage').src = config.qrUrl; };
+      reader.readAsDataURL(file);
+    }
+
+    function saveAdminSettings() {
+      config.packages.forEach((p, idx) => {
+        const priceEl = document.getElementById('admPkgPrice_' + idx);
+        const codeEl = document.getElementById('admPkgCode_' + idx);
+        if (priceEl) p.price = priceEl.value.trim() || p.price;
+        if (codeEl) p.code = codeEl.value.trim().toUpperCase() || p.code;
+      });
+
+      config.heroTitle = document.getElementById('cfgHeroTitle').value.trim() || DEFAULT_CFG.heroTitle;
+      config.heroCat = document.getElementById('cfgHeroCat').value;
+      config.heroMeta = document.getElementById('cfgHeroMeta').value.trim() || DEFAULT_CFG.heroMeta;
+      config.heroDesc = document.getElementById('cfgHeroDesc').value.trim() || DEFAULT_CFG.heroDesc;
+      config.heroImg = document.getElementById('cfgHeroImg').value.trim() || DEFAULT_CFG.heroImg;
+      config.heroFull = formatEmbedUrl(document.getElementById('cfgHeroFull').value.trim()) || DEFAULT_CFG.heroFull;
+      config.heroTrailer = formatEmbedUrl(document.getElementById('cfgHeroTrailer').value.trim()) || DEFAULT_CFG.heroTrailer;
+
+      config.bankName = document.getElementById('cfgBankName').value.trim() || "Голомт Банк";
+      config.accountNum = document.getElementById('cfgAccountNum').value.trim() || "150015002205208876";
+      config.accountHolder = document.getElementById('cfgAccountHolder').value.trim() || "MongolFlix";
+      config.pin = document.getElementById('cfgAdminPin').value.trim().toUpperCase() || "ADMIN";
+
+      localStorage.setItem('mf_config_v4', JSON.stringify(config));
+      updateUiState();
+      renderMovies();
+      closeModal('adminPanelModal');
+      alert('Бүх багц болон шинэ нууц үг хадгалагдлаа!');
+    }
+
+    function exportBackup() {
+      const data = JSON.stringify({ movies, config }, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "mongolflix-backup.json";
+      a.click();
+    }
+
+    function importBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.movies) { movies = parsed.movies; localStorage.setItem('mf_movies_v3', JSON.stringify(movies)); }
+          if (parsed.config) { config = { ...DEFAULT_CFG, ...parsed.config }; localStorage.setItem('mf_config_v4', JSON.stringify(config)); }
+          updateUiState();
+          renderMovies();
+          openAdminPanel();
+          alert("Өгөгдөл амжилттай сэргээгдлээ!");
+        } catch (err) { alert("Файл буруу байна!"); }
+      };
+      reader.readAsText(file);
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+      if (id === 'playerModal') document.getElementById('videoFrame').src = '';
+    }
+
+    updateUiState();
+    renderMovies();
+  </script>
+</body>
+</html>
