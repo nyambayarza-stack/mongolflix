@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MongolFlix — Кино, Суваг ба Төлбөртэй Өгүүллэг</title>
+  <title>MongolFlix — Үнэгүй Кино Сан ба VIP Өгүүллэг</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
@@ -28,22 +28,22 @@
           </span>
         </button>
 
-        <nav class="flex items-center gap-2 sm:gap-5 text-xs sm:text-sm font-semibold">
+        <nav class="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold">
           <button type="button" id="navBtn_all" onclick="switchSection('all')" class="px-2.5 py-1.5 rounded-lg bg-white/10 text-white transition cursor-pointer">Бүгд</button>
-          <button type="button" id="navBtn_movies" onclick="switchSection('movies')" class="px-2.5 py-1.5 rounded-lg text-gray-300 hover:text-white transition cursor-pointer">🎬 Кино & Суваг</button>
-          <button type="button" id="navBtn_stories" onclick="switchSection('stories')" class="px-2.5 py-1.5 rounded-lg text-amber-400 hover:text-amber-300 transition cursor-pointer">📖 Өгүүллэг</button>
+          <button type="button" id="navBtn_stories" onclick="switchSection('stories')" class="px-2.5 py-1.5 rounded-lg text-amber-400 hover:text-amber-300 transition cursor-pointer">👑 VIP Өгүүллэг</button>
+          <button type="button" id="navBtn_movies" onclick="switchSection('movies')" class="px-2.5 py-1.5 rounded-lg text-emerald-400 hover:text-emerald-300 transition cursor-pointer">🆓 Үнэгүй Кино (100)</button>
         </nav>
       </div>
 
       <div class="flex items-center gap-2.5">
         <div class="relative hidden md:block">
-          <input id="searchInput" type="text" oninput="renderAllContent()" placeholder="Кино, суваг, өгүүллэг хайх..." 
+          <input id="searchInput" type="text" oninput="renderAllContent()" placeholder="Кино, өгүүллэг хайх..." 
             class="w-56 bg-white/5 border border-white/10 rounded-full pl-9 pr-4 py-1.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-red-500">
           <svg class="w-4 h-4 text-gray-400 absolute left-3 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
 
         <button type="button" id="vipStatusBtn" onclick="openVipModal()" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 transition shadow-lg shadow-amber-500/20 cursor-pointer">
-          <span>👑</span> <span id="vipStatusText">VIP Эрх авах</span>
+          <span>👑</span> <span id="vipStatusText">VIP Багц авах</span>
         </button>
 
         <button type="button" id="adminLockBtn" onclick="openAdminAuth()" title="Админ удирдлага" class="p-2.5 rounded-lg bg-white/10 hover:bg-red-600 border border-white/15 text-gray-200 hover:text-white transition cursor-pointer">
@@ -56,39 +56,37 @@
   <!-- Онцлох хэсэг (Hero Banner) -->
   <section class="relative overflow-hidden border-b border-white/10 z-10">
     <div class="absolute inset-0 bg-gradient-to-r from-[#0b0d12] via-[#0b0d12]/85 to-transparent z-10 pointer-events-none"></div>
-    <img id="heroBannerImg" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600&q=80" alt="Hero" class="w-full h-[380px] sm:h-[420px] object-cover opacity-45">
+    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600&q=80" alt="Hero" class="w-full h-[360px] sm:h-[400px] object-cover opacity-45">
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-20 -mt-[340px] sm:-mt-[370px] pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-20 -mt-[320px] sm:-mt-[350px] pb-10">
       <div class="max-w-2xl">
         <div class="flex flex-wrap items-center gap-2 mb-3 text-xs font-semibold">
-          <span class="px-2 py-0.5 bg-red-600 text-white rounded">ШИНЭ ПЛАТФОРМ</span>
-          <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded">🆓 Үнэгүй суваг</span>
-          <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded">👑 Төлбөртэй VIP суваг & Өгүүллэг</span>
+          <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded">🆓 100 Монгол кино ҮНЭГҮЙ</span>
+          <span class="px-2.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded">👑 Онцгой Өгүүллэг & Тууж (VIP)</span>
         </div>
 
-        <h1 id="heroTitle" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3">Мандухай Сэцэн Хатан</h1>
-        <p id="heroDesc" class="text-gray-300 text-sm sm:text-base leading-relaxed mb-6 line-clamp-2">
-          Үнэгүй болон төлбөртэй сувгийн шилдэг кинонууд, мөн эхлэл хэсгийг нь үнэгүй уншаад үргэлжлэлийг нь нээж уншдаг онцгой өгүүллэгүүд нэг дор.
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3">MongolFlix Сан</h1>
+        <p class="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
+          100 шилдэг Монгол киног ямар ч үнэ төлбөргүй шууд үзээрэй. Харин зохиолчийн онцгой өгүүллэг, туужийн эхлэл хэсгийг үнэгүй уншаад үргэлжлэлийг нь <span class="text-amber-400 font-bold">VIP багц</span> нээн бүрэн уншаарай.
         </p>
 
         <div class="flex flex-wrap items-center gap-3">
-          <button type="button" onclick="playHeroMovie()" class="px-5 py-2.5 rounded-lg bg-white hover:bg-gray-200 text-black font-bold text-sm flex items-center gap-2 transition cursor-pointer">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            Кино үзэх
-          </button>
-          <button type="button" onclick="switchSection('stories')" class="px-5 py-2.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-sm transition cursor-pointer">
+          <button type="button" onclick="switchSection('stories')" class="px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition cursor-pointer">
             📖 Өгүүллэг унших
+          </button>
+          <button type="button" onclick="switchSection('movies')" class="px-5 py-2.5 rounded-lg bg-white/15 hover:bg-white/25 text-white font-bold text-sm backdrop-blur transition cursor-pointer">
+            🎬 Үнэгүй кино үзэх
           </button>
         </div>
       </div>
 
-      <!-- Ганц цэгцтэй эрх нээх зурвас -->
-      <div class="mt-7 p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <!-- VIP Багц & Өгүүллэгийн эрх нээх зурвас -->
+      <div class="mt-7 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 text-lg">🔑</div>
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 text-lg">👑</div>
           <div>
-            <h3 class="text-sm font-bold text-white">Төлбөртэй суваг ба Бүх өгүүллэгийн эрх нээх (<span id="bannerPriceLabel">5,000₮</span>)</h3>
-            <p class="text-xs text-gray-400">Төлбөрөө шилжүүлээд утсанд ирсэн нууц кодыг оруулмагц бүх кино, суваг болон бүтэн өгүүллэгүүд нээгдэнэ.</p>
+            <h3 class="text-sm font-bold text-white">VIP Багц ба Бүх Өгүүллэгийн эрх (<span id="bannerPriceLabel">5,000₮</span>)</h3>
+            <p class="text-xs text-gray-300">Төлбөрөө шилжүүлээд утсанд ирсэн нууц кодыг оруулмагц бүх VIP өгүүллэг болон тусгай контентууд нээгдэнэ.</p>
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -96,7 +94,7 @@
             🔒 Код оруулах
           </button>
           <button type="button" onclick="openVipModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold transition cursor-pointer">
-            Эрх авах
+            VIP Багц авах
           </button>
         </div>
       </div>
@@ -106,35 +104,31 @@
   <!-- Үндсэн агуулга -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-12">
 
-    <!-- ХЭСЭГ 1: ТӨЛБӨРТЭЙ ӨГҮҮЛЛЭГ & ТУУЖ (Эхлэл хэсэг үнэгүй -> Үргэлжлэл төлбөртэй) -->
+    <!-- ХЭСЭГ 1: ТӨЛБӨРТЭЙ VIP ӨГҮҮЛЛЭГ & ТУУЖ -->
     <section id="storiesSection">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
         <div>
           <h2 class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
-            📖 Төлбөртэй Өгүүллэг ба Зохиолууд
+            📖 Төлбөртэй VIP Өгүүллэг ба Туужууд
           </h2>
-          <p class="text-xs text-gray-400 mt-0.5">Эхлэл хэсгийг үнэгүй уншаад, сонирхолтой үргэлжлэлийг нь VIP эрхээр нээж уншина уу</p>
+          <p class="text-xs text-gray-400 mt-0.5">Эхлэл хэсгийг үнэгүй уншаад, үлдсэн бүтэн хэсгийг VIP багцын кодоор нээж уншина уу</p>
         </div>
-        <div class="flex gap-2 text-xs">
-          <button type="button" onclick="setAccessFilter('all')" class="access-filter-btn px-3 py-1.5 rounded-full bg-red-600 text-white font-semibold" data-filter="all">Бүгд</button>
-          <button type="button" onclick="setAccessFilter('free')" class="access-filter-btn px-3 py-1.5 rounded-full bg-white/5 text-gray-300 hover:bg-white/10 font-semibold" data-filter="free">🆓 Үнэгүй</button>
-          <button type="button" onclick="setAccessFilter('vip')" class="access-filter-btn px-3 py-1.5 rounded-full bg-white/5 text-gray-300 hover:bg-white/10 font-semibold" data-filter="vip">👑 Төлбөртэй VIP</button>
-        </div>
+        <span class="text-xs text-amber-400 font-semibold">Нийт: <span id="visibleStoryCount">0</span> өгүүллэг</span>
       </div>
 
       <div id="storiesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
-    <!-- ХЭСЭГ 2: ҮНЭГҮЙ БОЛОН ТӨЛБӨРТЭЙ СУВАГ (КИНОНУУД) -->
+    <!-- ХЭСЭГ 2: 100% ҮНЭГҮЙ МОНГОЛ КИНО САН -->
     <section id="moviesSection">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
         <div>
           <h2 class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
-            🎬 Үнэгүй ба Төлбөртэй Суваг
+            🆓 Үнэгүй Монгол Кино Сан
           </h2>
-          <p class="text-xs text-gray-400 mt-0.5">Үнэгүй сувгийн киног шууд үзнэ, Төлбөртэй сувгийн киног VIP кодоор нээнэ</p>
+          <p class="text-xs text-gray-400 mt-0.5">Бүх кино 100% үнэгүй — дуртай киногоо сонгоод шууд тоглуулж үзээрэй</p>
         </div>
-        <div class="text-xs text-gray-400">Нийт: <span id="visibleMovieCount" class="text-white font-bold">0</span> кино</div>
+        <div class="text-xs text-emerald-400 font-semibold">Нийт: <span id="visibleMovieCount">100</span> үнэгүй кино</div>
       </div>
 
       <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
@@ -144,19 +138,19 @@
 
   <!-- Доод хэсэг -->
   <footer class="border-t border-white/10 py-6 px-4 text-center text-xs text-gray-500 flex items-center justify-between max-w-7xl mx-auto w-full">
-    <span>© 2026 MongolFlix. Үнэгүй ба Төлбөртэй суваг, Өгүүллэгийн сан.</span>
+    <span>© 2026 MongolFlix. Үнэгүй кино сан ба VIP өгүүллэг.</span>
     <button type="button" onclick="openAdminAuth()" class="px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white flex items-center gap-1 transition cursor-pointer">
       <span>🔐 Админ</span>
     </button>
   </footer>
 
-  <!-- 1. Өгүүллэг Уншигч Цонх (Хэсэгхэн үнэгүй -> Үргэлжлэл төлбөртэй) -->
+  <!-- 1. Өгүүллэг Уншигч Цонх -->
   <div id="storyReaderModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl my-6">
       <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-[#10131a]">
         <div>
           <div class="flex items-center gap-2 mb-1">
-            <span id="readerBadge" class="px-2 py-0.5 rounded bg-amber-500 text-black font-extrabold text-[10px]">👑 Төлбөртэй өгүүллэг</span>
+            <span id="readerBadge" class="px-2 py-0.5 rounded bg-amber-500 text-black font-extrabold text-[10px]">👑 Төлбөртэй VIP өгүүллэг</span>
             <span id="readerAuthor" class="text-xs text-gray-400">Зохиолч: MongolFlix</span>
           </div>
           <h3 id="readerTitle" class="font-extrabold text-white text-lg sm:text-xl">Өгүүллэгийн нэр</h3>
@@ -168,19 +162,19 @@
         <!-- Үнэгүй унших эхлэл хэсэг -->
         <div id="readerFreePart" class="whitespace-pre-line"></div>
 
-        <!-- Төлбөртэй үргэлжлэл (Эрх нээгдсэн үед харагдана) -->
+        <!-- Төлбөртэй үргэлжлэл (VIP эрх нээгдсэн үед харагдана) -->
         <div id="readerPaidPart" class="hidden whitespace-pre-line pt-4 border-t border-white/10 text-white"></div>
 
-        <!-- Түгжээтэй үед гарах төлбөрийн урилга -->
+        <!-- Түгжээтэй үед гарах VIP багцын урилга -->
         <div id="readerPaywallBox" class="mt-6 p-6 rounded-2xl bg-gradient-to-b from-amber-500/15 to-[#0b0d12] border border-amber-500/40 text-center font-sans space-y-3">
           <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-2xl">🔒</div>
-          <h4 class="text-base sm:text-lg font-extrabold text-white">Үргэлжлүүлэн уншихын тулд эрхээ нээнэ үү</h4>
+          <h4 class="text-base sm:text-lg font-extrabold text-white">Үргэлжлүүлэн уншихын тулд VIP багц нээнэ үү</h4>
           <p class="text-xs text-gray-300 max-w-md mx-auto leading-relaxed">
-            Энэ өгүүллэгийн үлдсэн бүтэн хэсэг болон бусад бүх төлбөртэй суваг, кинонуудыг нээхийн тулд <span id="paywallPrice" class="text-amber-400 font-bold">5,000₮</span> шилжүүлээд нууц кодоо оруулна уу.
+            Энэ өгүүллэгийн үлдсэн бүтэн хэсэг болон бусад бүх VIP өгүүллэгүүдийг уншихын тулд <span id="paywallPrice" class="text-amber-400 font-bold">5,000₮</span> шилжүүлээд нууц кодоо оруулна уу.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
             <button type="button" onclick="closeModal('storyReaderModal'); openVipModal();" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs transition">
-              👑 Төлбөр төлөх & Данс харах
+              👑 VIP Багц авах & Данс харах
             </button>
             <button type="button" onclick="closeModal('storyReaderModal'); openCodeModal();" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/15 transition">
               🔑 Код оруулж нээх
@@ -191,13 +185,13 @@
     </div>
   </div>
 
-  <!-- 2. Видео тоглуулагч -->
+  <!-- 2. Видео тоглуулагч (Бүх кино үнэгүй шууд тоглоно) -->
   <div id="playerModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl my-6">
       <div class="px-5 py-3.5 border-b border-white/10 flex items-center justify-between">
         <div>
           <h3 id="playerTitle" class="font-bold text-white text-base">Киноны нэр</h3>
-          <p id="playerSubtitle" class="text-xs text-gray-400">MongolFlix Суваг</p>
+          <p id="playerSubtitle" class="text-xs text-emerald-400">🆓 Үнэгүй Монгол кино</p>
         </div>
         <button type="button" onclick="closeModal('playerModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">✕</button>
       </div>
@@ -205,7 +199,7 @@
         <iframe id="videoFrame" class="w-full h-full" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
       </div>
       <div class="p-4 bg-[#0f1219] flex flex-wrap items-center justify-between gap-3 text-xs border-t border-white/5">
-        <span class="text-gray-400">MongolFlix — Үнэгүй ба Төлбөртэй суваг</span>
+        <span class="text-gray-400">MongolFlix — 100% Үнэгүй кино сан</span>
         <a id="youtubeSearchFallback" href="https://www.youtube.com" target="_blank" class="px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600/40 text-red-300 font-semibold">
           ▶ YouTube дээр шууд нээх ↗
         </a>
@@ -213,26 +207,26 @@
     </div>
   </div>
 
-  <!-- 3. Ганц ерөнхий VIP Эрх авах цонх (Төлбөртэй суваг + Бүх өгүүллэг) -->
+  <!-- 3. VIP Багц авах цонх (Зөвхөн VIP багц & Өгүүллэг үнэтэй) -->
   <div id="vipModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-xl w-full p-6 shadow-2xl my-8">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h2 class="text-xl font-bold text-white">👑 Төлбөртэй Суваг & Өгүүллэгийн Эрх</h2>
-          <p class="text-xs text-amber-400 mt-0.5">Нэг удаагийн эрхээр бүх төлбөртэй кино суваг болон бүтэн өгүүллэгүүдийг уншина</p>
+          <h2 class="text-xl font-bold text-white">👑 VIP Багц & Өгүүллэгийн Эрх</h2>
+          <p class="text-xs text-amber-400 mt-0.5">Бүх төлбөртэй өгүүллэг, туужийг хязгааргүй бүрэн унших эрх</p>
         </div>
         <button type="button" onclick="closeModal('vipModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white shrink-0">✕</button>
       </div>
 
       <div id="activeVipBox" class="hidden mb-4 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center justify-between">
-        <span>✓ Таны VIP эрх идэвхтэй байна! Бүх суваг, өгүүллэг нээлттэй.</span>
+        <span>✓ Таны VIP багц идэвхтэй байна! Бүх өгүүллэг нээлттэй.</span>
         <button type="button" onclick="deactivateVip()" class="underline text-emerald-200 hover:text-white">Эрх цуцлах</button>
       </div>
 
       <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 mb-4 flex items-center justify-between">
         <div>
-          <div class="text-sm font-bold text-white">Бүх эрх нээх багц (Суваг + Өгүүллэг)</div>
-          <div class="text-xs text-gray-300">Хугацаа: 30 хоног хязгааргүй</div>
+          <div class="text-sm font-bold text-white">VIP Багц (Бүх өгүүллэг + Онцгой контент)</div>
+          <div class="text-xs text-gray-300">Хугацаа: 30 хоног</div>
         </div>
         <div id="modalVipPrice" class="text-2xl font-extrabold text-amber-400">5,000₮</div>
       </div>
@@ -245,7 +239,7 @@
           <p class="text-gray-300 leading-relaxed">
             1. Доорх данс руу эсвэл QR кодыг уншуулж төлбөрөө шилжүүлнэ үү.<br>
             2. <span class="text-amber-400 font-semibold">Гүйлгээний утга дээр УТАСНЫ ДУГААРАА</span> заавал бичнэ үү.<br>
-            3. Төлбөр ормогц таны утсанд <span class="text-white font-semibold">нэвтрэх нууц код</span> мессежээр очно.
+            3. Төлбөр ормогц таны утсанд <span class="text-white font-semibold">VIP нууц код</span> мессежээр очно.
           </p>
           <div class="p-2.5 rounded-lg bg-white/5 border border-white/10 text-gray-200 font-mono">
             Банк: <span id="displayBankName" class="font-bold text-white">Голомт Банк</span><br>
@@ -253,7 +247,7 @@
           </div>
           <div class="pt-1">
             <button type="button" onclick="closeModal('vipModal'); openCodeModal();" class="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition">
-              Мессежээр ирсэн кодоо оруулах →
+              Мессежээр ирсэн VIP кодоо оруулах →
             </button>
           </div>
         </div>
@@ -261,18 +255,18 @@
     </div>
   </div>
 
-  <!-- 4. Код оруулах -->
+  <!-- 4. VIP Код оруулах -->
   <div id="codeModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-[#141821] border border-white/15 rounded-2xl max-w-sm w-full p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-bold text-white">🔑 VIP Код оруулах</h3>
+        <h3 class="text-lg font-bold text-white">🔑 VIP Багцын код оруулах</h3>
         <button type="button" onclick="closeModal('codeModal')" class="w-7 h-7 rounded bg-white/10 text-white">✕</button>
       </div>
-      <p class="text-xs text-gray-400 mb-4">Утсанд мессежээр ирсэн нууц кодыг оруулан төлбөртэй суваг болон бүх өгүүллэгээ нээгээрэй.</p>
+      <p class="text-xs text-gray-400 mb-4">Таны утсанд мессежээр ирсэн VIP нууц кодыг доор бичнэ үү.</p>
       <input id="unlockCodeInput" type="text" onkeydown="if(event.key==='Enter') verifyUnlockCode()" placeholder="Жишээ: VIP5000" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-3 text-center text-lg font-mono uppercase tracking-widest text-white mb-3 focus:outline-none focus:border-amber-500">
       <p id="codeErrorMsg" class="text-xs text-red-400 mb-3 hidden">Код буруу байна. Шалгаад дахин оруулна уу.</p>
       <button type="button" onclick="verifyUnlockCode()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm transition">
-        Эрх нээх
+        VIP эрх нээх
       </button>
     </div>
   </div>
@@ -298,15 +292,15 @@
       <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/10 shrink-0">
         <div>
           <h2 class="text-lg font-bold text-white flex items-center gap-2">🛡️ Админ Удирдлагын Төв</h2>
-          <p class="text-xs text-gray-400">Үнэгүй/Төлбөртэй суваг, Төлбөртэй өгүүллэг болон SMS код удирдах</p>
+          <p class="text-xs text-gray-400">Төлбөртэй өгүүллэг оруулах, VIP багцын үнэ ба кодыг удирдах, үнэгүй кино нэмэх</p>
         </div>
         <button type="button" onclick="closeModal('adminPanelModal')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white">✕</button>
       </div>
 
       <div class="flex gap-2 overflow-x-auto pb-3 mb-4 border-b border-white/10 shrink-0 text-xs">
-        <button type="button" onclick="switchAdminTab('stories')" id="tabBtn_stories" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold">📖 Өгүүллэг нэмэх / Засах</button>
-        <button type="button" onclick="switchAdminTab('movies')" id="tabBtn_movies" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-bold">🎬 Суваг & Кино удирдах</button>
-        <button type="button" onclick="switchAdminTab('vip')" id="tabBtn_vip" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">👑 VIP Үнэ, SMS код & Данс</button>
+        <button type="button" onclick="switchAdminTab('stories')" id="tabBtn_stories" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-red-600 text-white font-bold">📖 Төлбөртэй Өгүүллэг оруулах</button>
+        <button type="button" onclick="switchAdminTab('vip')" id="tabBtn_vip" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-semibold">👑 VIP Багцын Үнэ, SMS код & Данс</button>
+        <button type="button" onclick="switchAdminTab('movies')" id="tabBtn_movies" class="admin-tab-btn px-3.5 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 font-bold">🎬 Үнэгүй Кино нэмэх / Засах</button>
       </div>
 
       <div class="overflow-y-auto flex-1 pr-1 space-y-5 text-xs">
@@ -314,7 +308,7 @@
         <!-- ТАБ 1: Төлбөртэй Өгүүллэг Нэмэх -->
         <div id="adminTab_stories" class="admin-tab-content space-y-4">
           <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-3">
-            <div class="font-bold text-amber-300 text-sm">✍️ Шинэ өгүүллэг / тууж нэмэх (Хэсэгхэн үнэгүй → Үргэлжлэл төлбөртэй)</div>
+            <div class="font-bold text-amber-300 text-sm">✍️ Шинэ өгүүллэг / тууж оруулах (Хэсэгхэн үнэгүй → Үлдсэн нь VIP төлбөртэй)</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="text-gray-300 block mb-1">Өгүүллэгийн нэр *</label>
@@ -327,8 +321,8 @@
               <div>
                 <label class="text-gray-300 block mb-1">Төрөл</label>
                 <select id="newStoryVip" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white font-semibold">
-                  <option value="true">👑 Хэсэгхэн үнэгүй → Үлдсэн нь төлбөртэй</option>
-                  <option value="false">🆓 Бүтнээрээ үнэгүй унших</option>
+                  <option value="true">👑 Төлбөртэй VIP өгүүллэг</option>
+                  <option value="false">🆓 Бүтнээрээ үнэгүй</option>
                 </select>
               </div>
             </div>
@@ -339,8 +333,8 @@
             </div>
 
             <div>
-              <label class="text-amber-400 font-semibold block mb-1">2. Төлбөр төлсөн хүн унших ҮРГЭЛЖЛЭЛ ХЭСЭГ (Түгжээтэй хэсэг)</label>
-              <textarea id="newStoryPaidText" rows="5" placeholder="Төлбөртэй VIP код оруулсны дараа нээгдэж уншигдах бүтэн үргэлжлэлийг энд хуулна уу..." class="w-full bg-black/50 border border-amber-500/30 rounded-lg p-3 text-white"></textarea>
+              <label class="text-amber-400 font-semibold block mb-1">2. VIP багц авсан хүн унших ҮРГЭЛЖЛЭЛ ХЭСЭГ (Төлбөртэй хэсэг)</label>
+              <textarea id="newStoryPaidText" rows="5" placeholder="Төлбөр төлж VIP код оруулсны дараа нээгдэх бүтэн үргэлжлэлийг энд хуулна уу..." class="w-full bg-black/50 border border-amber-500/30 rounded-lg p-3 text-white"></textarea>
             </div>
 
             <button type="button" onclick="addNewStory()" class="px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold transition">
@@ -354,60 +348,25 @@
           </div>
         </div>
 
-        <!-- ТАБ 2: Үнэгүй ба Төлбөртэй Суваг (Кинонууд) -->
-        <div id="adminTab_movies" class="admin-tab-content hidden space-y-4">
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
-            <div class="font-bold text-white text-sm">➕ Сувагт шинэ кино нэмэх</div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label class="text-gray-400 block mb-1">Киноны нэр *</label>
-                <input id="newMovieTitle" type="text" placeholder="Жишээ: Ану Хатан" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
-              </div>
-              <div>
-                <label class="text-gray-400 block mb-1">Аль сувагт орох вэ? *</label>
-                <select id="newMovieVip" class="w-full bg-black/80 border border-white/15 rounded-lg px-3 py-2 text-white font-semibold">
-                  <option value="true">👑 Төлбөртэй VIP суваг</option>
-                  <option value="false">🆓 Үнэгүй суваг</option>
-                </select>
-              </div>
-              <div>
-                <label class="text-gray-400 block mb-1">YouTube эсвэл Google Drive линк *</label>
-                <input id="newMovieFull" type="text" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
-              </div>
-            </div>
-            <button type="button" onclick="addNewMovie()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
-              + Сувагт нэмэх
-            </button>
-          </div>
-
-          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-              <div class="font-bold text-white text-sm">🎬 Нийт кино (<span id="adminMovieCount">0</span>) — Үнэгүй/Төлбөртэй төлөв & Линк солих</div>
-              <input id="adminSearchMovie" type="text" oninput="renderAdminMoviesList()" placeholder="Кино хайх..." class="bg-black/50 border border-white/15 rounded-lg px-3 py-1.5 text-white w-full sm:w-60">
-            </div>
-            <div id="adminMoviesList" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
-          </div>
-        </div>
-
-        <!-- ТАБ 3: VIP Үнэ, SMS Код ба Банкны данс -->
+        <!-- ТАБ 2: VIP Багцын Үнэ, SMS Код ба Банкны данс -->
         <div id="adminTab_vip" class="admin-tab-content hidden space-y-4">
           <div class="p-4 rounded-xl bg-red-600/10 border border-red-600/30 flex items-center justify-between">
             <div>
-              <div class="font-bold text-white text-sm">Админ эрхээр бүх суваг, өгүүллэгийг шууд үзэх/унших</div>
-              <div class="text-gray-400">Төлбөр төлөхгүйгээр өөрийнхөө бүх контентыг шалгах горим</div>
+              <div class="font-bold text-white text-sm">Админ эрхээр бүх VIP өгүүллэгийг шууд унших</div>
+              <div class="text-gray-400">Төлбөр төлөхгүйгээр өөрийн оруулсан бүх өгүүллэгийг шалгаж унших горим</div>
             </div>
             <button type="button" id="toggleAdminBypassBtn" onclick="toggleAdminBypass()" class="px-4 py-2 rounded-lg bg-red-600 text-white font-bold">Асаах</button>
           </div>
 
           <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
-            <div class="font-bold text-white text-sm">👑 Төлбөртэй суваг & Өгүүллэгийн үнэ ба SMS код</div>
+            <div class="font-bold text-white text-sm">👑 VIP Багцын үнэ ба SMS нууц код</div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label class="text-gray-400 block mb-1">Багцын үнэ</label>
+                <label class="text-gray-400 block mb-1">VIP багцын үнэ</label>
                 <input id="cfgVipPrice" type="text" class="w-full bg-black/50 border border-white/15 rounded px-3 py-2 text-white font-bold">
               </div>
               <div>
-                <label class="text-amber-400 font-semibold block mb-1">Хэрэглэгч нэвтрэх SMS код</label>
+                <label class="text-amber-400 font-semibold block mb-1">Уншигчид явуулах SMS код</label>
                 <div class="flex gap-1.5">
                   <input id="cfgVipCode" type="text" class="w-full bg-black/50 border border-amber-500/40 rounded px-3 py-2 font-mono text-amber-400 font-bold uppercase">
                   <button type="button" onclick="genRandomVipCode()" class="px-2.5 rounded bg-white/10 hover:bg-white/20 text-white" title="Шинэ код үүсгэх">🎲</button>
@@ -449,8 +408,8 @@
 
           <div class="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div class="font-bold text-white text-sm">💾 Бүх мэдээлэл нөөцлөх (Backup)</div>
-              <div class="text-gray-400">Өгүүллэг, кино болон дансны тохиргоог файлаар татаж хадгалах</div>
+              <div class="font-bold text-white text-sm">💾 Бүх өгүүллэг ба тохиргоо нөөцлөх</div>
+              <div class="text-gray-400">Өөр төхөөрөмж рүү шилжүүлэх бол файлаар татаж авна уу</div>
             </div>
             <div class="flex gap-2">
               <button type="button" onclick="exportBackup()" class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold">⬇️ Татаж авах</button>
@@ -461,6 +420,35 @@
             </div>
           </div>
         </div>
+
+        <!-- ТАБ 3: Үнэгүй Кино Нэмэх & Засах -->
+        <div id="adminTab_movies" class="admin-tab-content hidden space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+            <div class="font-bold text-white text-sm">➕ Үнэгүй кино санд шинэ кино нэмэх</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="text-gray-400 block mb-1">Киноны нэр *</label>
+                <input id="newMovieTitle" type="text" placeholder="Жишээ: Ану Хатан" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="text-gray-400 block mb-1">YouTube эсвэл Google Drive линк *</label>
+                <input id="newMovieFull" type="text" placeholder="https://www.youtube.com/watch?v=..." class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white">
+              </div>
+            </div>
+            <button type="button" onclick="addNewMovie()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition">
+              + Үнэгүй кино нэмэх
+            </button>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div class="font-bold text-white text-sm">🎬 Нийт үнэгүй кино (<span id="adminMovieCount">0</span>)</div>
+              <input id="adminSearchMovie" type="text" oninput="renderAdminMoviesList()" placeholder="Кино хайх..." class="bg-black/50 border border-white/15 rounded-lg px-3 py-1.5 text-white w-full sm:w-60">
+            </div>
+            <div id="adminMoviesList" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+
       </div>
 
       <div class="pt-4 mt-4 border-t border-white/10 flex justify-end gap-3 shrink-0">
@@ -488,38 +476,30 @@
         vip: true,
         freeText: "Улаанбаатар–Замын-Үүдийн шөнийн галт тэрэг хөдлөхөд ердөө таван минут дутуу байв. 7-р вагоны 4-р купенд суусан үл таних эр хар цүнхээ энгэртээ чанга тэврэн цонхоор гадагш түгшүүртэй харна.\n\nГалт тэрэг хөдөлмөгц коридорт хүнд алхаа сонсогдож, хаалга зөөлөн тогшив...",
         paidText: "Хаалга нээгдэхэд урт хар цув өмссөн бүсгүй зогсож байлаа. Тэр дотогш орж хаалгыг түгжээд:\n— Тэд таныг аль хэдийн мөрдөж эхэлсэн. Цүнхэн доторх бичиг баримтыг өнөө шөнө Чойрын өртөөн дээр буулгах ёстой гэж шивнэв.\n\nГалт тэрэгний дугуй төмөр зам дээр түг түг хийн хурдлахад тэр хоёр цүнхний нууц түгжээг тайлж, дотор нь байсан хуучны алтан тамгыг гаргаж ирлээ..."
-      },
-      {
-        id: 103,
-        title: "Хөх Тал Нутагт Өнгөрүүлсэн Зун (Үнэгүй өгүүллэг)",
-        author: "MongolFlix Зохиолч",
-        vip: false,
-        freeText: "Зуны эхэн сарын бороо зөөлөн шиврээд өнгөрсний дараа тал нутаг тэр чигтээ ногоон хивс дэвссэн мэт сэргэнэ.\n\nХотоос ирсэн бяцхан хүү өвөөгийнхөө хотонд анх удаа унага уургалахыг хараад баярласандаа алга ташин гүйж байлаа. Энэ бол түүний амьдралын хамгийн мартагдашгүй зун байсан юм.",
-        paidText: ""
       }
     ];
 
-    const RAW_MOVIES = [
-      ["Мандухай сэцэн хатан", 1988, "9.8", false],
-      ["Тунгалаг Тамир", 1970, "9.8", false],
-      ["Би чамд хайртай", 1985, "9.7", false],
-      ["Гарьд магнай", 1983, "9.7", false],
-      ["Сэрэлт", 1957, "9.6", false],
-      ["Маш нууц", 2015, "9.6", true],
-      ["Маш нууц 2: Байтаг Богд", 2018, "9.7", true],
-      ["Зүрхний хилэн", 2017, "9.6", true],
-      ["Содура", 2015, "9.4", true],
-      ["Бодлын хулгайч", 2011, "9.5", true],
-      ["Үргээлэг", 2014, "9.4", true],
-      ["Үргээлэг 2", 2016, "9.3", true],
-      ["Аав", 2015, "9.5", true],
-      ["Ларьдма", 2013, "9.3", true],
-      ["Микроны босс", 2013, "9.3", true],
-      ["Аз жаргалын шок", 2013, "9.2", true],
-      ["Single Ladies", 2013, "9.1", true],
-      ["Тусгай салаа", 2010, "9.4", true],
-      ["Цогт тайж", 1945, "9.7", true],
-      ["Мөнх тэнгэрийн хүчин дор", 1992, "9.7", true]
+    const RAW_100_MONGOL_MOVIES = [
+      ["Мандухай сэцэн хатан", 1988, "9.8"], ["Цогт тайж", 1945, "9.7"], ["Өглөө", 1968, "9.5"], ["Тунгалаг Тамир", 1970, "9.8"], ["Хатанбаатар", 1981, "9.4"],
+      ["Хүний сайхан сэтгэл", 1980, "9.3"], ["Хөхөө гэрлэх дөхлөө", 1962, "9.5"], ["Эх бүрдийн домог", 1975, "9.2"], ["Анхны алхам", 1970, "9.4"], ["Тэмцэл", 1971, "9.1"],
+      ["Ардын элч", 1959, "9.5"], ["Сэрэлт", 1957, "9.6"], ["Гологдсон хүүхэн", 1961, "9.2"], ["Морьтой ч болоосой", 1959, "9.4"], ["Хөдөөгийн баясгалан", 1974, "9.3"],
+      ["Талын цуурай", 1970, "9.0"], ["Хүний мөр", 1965, "9.4"], ["Хил дээр болсон хэрэг", 1965, "9.1"], ["Би чамд хайртай", 1985, "9.7"], ["Гарьд магнай", 1983, "9.7"],
+      ["Тод магнай", 1990, "9.5"], ["Цэц магнай", 1995, "9.4"], ["Аман хуур", 1963, "9.3"], ["Үер", 1966, "9.2"], ["Хөх ногооны униар", 1977, "9.1"],
+      ["Мөрөөдлийн хөлөг", 2005, "8.8"], ["Сайн уу амьдрал минь", 2008, "9.2"], ["Хайр харуусал", 2009, "8.6"], ["Сүүлчийн бүжиг", 2010, "8.5"], ["Хайрын рекорд", 2011, "8.9"],
+      ["Тусгай салаа", 2010, "9.4"], ["Амьдралоги", 2017, "9.0"], ["Помогите нам", 2012, "9.1"], ["Дурлалын гэмт хэрэг", 2013, "8.8"], ["Сайн уу амьдрал минь 2", 2014, "8.9"],
+      ["Микроны босс", 2013, "9.3"], ["Боолын гэрээ", 2011, "8.7"], ["Содура", 2015, "9.4"], ["Зүрхний хилэн", 2017, "9.6"], ["Хайртай", 2016, "8.5"],
+      ["Мөнгөний гахай", 2015, "8.6"], ["Хөгжилтэй өдөр", 2014, "8.4"], ["Гоёлын даашинз", 2009, "8.9"], ["Дүүлэн нис", 2012, "8.5"], ["Дурлалын гэмт хэрэг 2", 2015, "8.7"],
+      ["Аз жаргалын шок", 2013, "9.2"], ["Single Ladies", 2013, "9.1"], ["Single Ladies 2", 2015, "9.0"], ["Single Ladies 3", 2017, "8.9"], ["Тагнуулч аав", 2016, "9.0"],
+      ["Ларьдма", 2013, "9.3"], ["Аав", 2015, "9.5"], ["Ээж", 2016, "9.2"], ["Алсын удирдлага", 2013, "9.1"], ["Үргээлэг", 2014, "9.4"],
+      ["Бодлын хулгайч", 2011, "9.5"], ["Тэнгэрийн хүү", 2011, "9.4"], ["Зэрлэг цэцэгсийн хүлэмж", 2013, "9.3"], ["Содура (Бүрэн хувилбар)", 2015, "9.4"], ["Маш нууц", 2015, "9.6"],
+      ["Маш нууц 2: Байтаг Богд", 2018, "9.7"], ["Фантастик", 2019, "9.1"], ["Зүрхний хилэн (Түүхэн)", 2017, "9.6"], ["Хайрлаж болох уу", 2014, "8.8"], ["247 градус", 2016, "8.7"],
+      ["Микроны босс 2: Приусны босс", 2016, "9.2"], ["Дурлалын гэмт хэрэг 3", 2018, "8.6"], ["Тусгаар тогтнол", 2016, "9.1"], ["Цасан охин", 2014, "8.7"], ["Анирлагч", 2015, "8.8"],
+      ["Шарга даага", 2013, "9.2"], ["Гэгээн учрал", 2015, "8.6"], ["Ээжийн дайсан", 2012, "8.9"], ["Сүүлчийн цасан ширхэг", 2017, "8.5"], ["Хайр үнэртсэн бороо", 2018, "8.7"],
+      ["Үргээлэг 2", 2016, "9.3"], ["Үргээлэг 3", 2021, "9.0"], ["Хөх толбот хүмүүс", 2011, "9.2"], ["Долоон бурхан харвадаггүй", 2012, "9.4"], ["Долоон бурхан харвадаггүй 2", 2014, "9.1"],
+      ["Говийн зэрэглээ", 1980, "9.5"], ["Хүн чулууны нулимс", 1990, "9.1"], ["Хүний амь", 1976, "9.0"], ["Нийслэл хүү", 1968, "9.4"], ["Уулын намар", 1982, "8.9"],
+      ["Өндөр ээж", 1968, "9.2"], ["Их замын эхэнд", 1978, "9.0"], ["Гал хам", 2013, "8.8"], ["Хайр", 2015, "8.6"], ["Дурлалын сум", 2014, "8.5"],
+      ["Хайрын эрэлд", 2012, "8.7"], ["Сайн уу амьдрал минь 3", 2019, "8.8"], ["Зүүдний үргэлжлэл", 2016, "8.5"], ["Гэрлэлт", 2017, "8.6"], ["Эцсийн зогсоол", 2018, "8.9"],
+      ["Амьдралын үнэ цэнэ", 2017, "8.8"], ["Хайрын хүч", 2016, "8.5"], ["Бэр", 2019, "8.9"], ["Хадаг", 2006, "9.3"], ["Мөнх тэнгэрийн хүчин дор", 1992, "9.7"]
     ];
 
     const POSTER_THEMES = [
@@ -530,15 +510,14 @@
       "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=80"
     ];
 
-    const DEFAULT_MOVIES = RAW_MOVIES.map((item, idx) => {
-      const [title, year, rating, isVip] = item;
+    const DEFAULT_MOVIES = RAW_100_MONGOL_MOVIES.map((item, idx) => {
+      const [title, year, rating] = item;
       const query = encodeURIComponent(title + " монгол кино бүтнээр");
       return {
         id: idx + 1,
         title,
         year,
         rating,
-        vip: isVip,
         img: POSTER_THEMES[idx % POSTER_THEMES.length],
         full: `https://www.youtube.com/embed?listType=search&list=${query}`,
         ytSearchUrl: `https://www.youtube.com/results?search_query=${query}`
@@ -555,13 +534,11 @@
       qrUrl: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=MONGOLFLIX-VIP"
     };
 
-    let stories = JSON.parse(localStorage.getItem('mf_stories_v1')) || DEFAULT_STORIES;
-    let movies = JSON.parse(localStorage.getItem('mf_movies_channel_v1')) || DEFAULT_MOVIES;
-    let config = { ...DEFAULT_CFG, ...(JSON.parse(localStorage.getItem('mf_vip_cfg_v1')) || {}) };
+    let stories = JSON.parse(localStorage.getItem('mf_stories_v2')) || DEFAULT_STORIES;
+    let movies = JSON.parse(localStorage.getItem('mf_free_movies_v1')) || DEFAULT_MOVIES;
+    let config = { ...DEFAULT_CFG, ...(JSON.parse(localStorage.getItem('mf_vip_cfg_v2')) || {}) };
     let isVipUnlocked = localStorage.getItem('mf_vip_unlocked') === 'true';
     let adminBypass = localStorage.getItem('mf_admin_bypass') === 'true';
-    let currentSection = 'all';
-    let accessFilter = 'all';
     let logoClicks = 0, logoTimer = null;
 
     function handleLogoClick() {
@@ -571,7 +548,7 @@
       else { logoTimer = setTimeout(() => { logoClicks = 0; }, 1500); }
     }
 
-    function hasFullAccess() {
+    function hasVipAccess() {
       return adminBypass || isVipUnlocked;
     }
 
@@ -594,8 +571,7 @@
     }
 
     function switchSection(sec) {
-      currentSection = sec;
-      ['all', 'movies', 'stories'].forEach(s => {
+      ['all', 'stories', 'movies'].forEach(s => {
         const btn = document.getElementById('navBtn_' + s);
         if (btn) {
           btn.className = s === sec
@@ -605,16 +581,6 @@
       });
       document.getElementById('storiesSection').classList.toggle('hidden', sec === 'movies');
       document.getElementById('moviesSection').classList.toggle('hidden', sec === 'stories');
-    }
-
-    function setAccessFilter(filter) {
-      accessFilter = filter;
-      document.querySelectorAll('.access-filter-btn').forEach(btn => {
-        btn.className = btn.dataset.filter === filter
-          ? "access-filter-btn px-3 py-1.5 rounded-full bg-red-600 text-white font-semibold"
-          : "access-filter-btn px-3 py-1.5 rounded-full bg-white/5 text-gray-300 hover:bg-white/10 font-semibold";
-      });
-      renderAllContent();
     }
 
     function updateUiState() {
@@ -627,7 +593,7 @@
         statusText.textContent = "✓ VIP Идэвхтэй";
         statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
       } else {
-        statusText.textContent = `VIP Эрх (${config.vipPrice})`;
+        statusText.textContent = `VIP Багц (${config.vipPrice})`;
         statusBtn.className = "px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs sm:text-sm flex items-center gap-1.5 cursor-pointer";
       }
 
@@ -643,19 +609,16 @@
     function renderAllContent() {
       const q = (document.getElementById('searchInput').value || '').toLowerCase();
 
-      // 1. Өгүүллэгүүд харуулах
-      const filteredStories = stories.filter(s => {
-        const matchAccess = accessFilter === 'all' || (accessFilter === 'vip' ? s.vip : !s.vip);
-        const matchQ = s.title.toLowerCase().includes(q) || s.freeText.toLowerCase().includes(q);
-        return matchAccess && matchQ;
-      });
+      // 1. Төлбөртэй VIP Өгүүллэгүүд
+      const filteredStories = stories.filter(s => s.title.toLowerCase().includes(q) || s.freeText.toLowerCase().includes(q));
+      document.getElementById('visibleStoryCount').textContent = filteredStories.length;
 
       document.getElementById('storiesGrid').innerHTML = filteredStories.map(s => `
         <div onclick="openStoryReader(${s.id})" class="cursor-pointer group bg-[#141821] border border-white/10 hover:border-amber-500/50 rounded-2xl p-5 transition flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               ${s.vip
-                ? '<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold text-[11px]">👑 Эхлэл үнэгүй • Үлдсэн нь төлбөртэй</span>'
+                ? '<span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold text-[11px]">👑 Эхлэл үнэгүй • Үлдсэн нь VIP төлбөртэй</span>'
                 : '<span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold text-[11px]">🆓 Бүтнээрээ үнэгүй</span>'}
             </div>
             <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-amber-400 transition mb-2 line-clamp-2">${s.title}</h3>
@@ -668,32 +631,26 @@
         </div>
       `).join('');
 
-      // 2. Үнэгүй ба Төлбөртэй сувгийн кинонууд
-      const filteredMovies = movies.filter(m => {
-        const matchAccess = accessFilter === 'all' || (accessFilter === 'vip' ? m.vip : !m.vip);
-        const matchQ = m.title.toLowerCase().includes(q);
-        return matchAccess && matchQ;
-      });
-
+      // 2. 100% Үнэгүй Монгол кино сан
+      const filteredMovies = movies.filter(m => m.title.toLowerCase().includes(q));
       document.getElementById('visibleMovieCount').textContent = filteredMovies.length;
 
       document.getElementById('moviesGrid').innerHTML = filteredMovies.map(m => `
-        <div onclick="playMovie(${m.id})" class="cursor-pointer group bg-[#141821] border border-white/10 rounded-xl overflow-hidden hover:border-white/25 transition flex flex-col">
+        <div onclick="playMovie(${m.id})" class="cursor-pointer group bg-[#141821] border border-white/10 rounded-xl overflow-hidden hover:border-emerald-500/40 transition flex flex-col">
           <div class="relative aspect-[2/3] overflow-hidden bg-black">
             <img src="${m.img}" alt="${m.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-80">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
             <div class="absolute top-2.5 left-2.5">
-              ${m.vip
-                ? '<span class="px-2 py-0.5 rounded bg-amber-500 text-black font-extrabold text-[10px]">👑 Төлбөртэй суваг</span>'
-                : '<span class="px-2 py-0.5 rounded bg-emerald-500 text-black font-extrabold text-[10px]">🆓 Үнэгүй суваг</span>'}
+              <span class="px-2 py-0.5 rounded bg-emerald-500 text-black font-extrabold text-[10px]">🆓 Үнэгүй</span>
             </div>
             <div class="absolute bottom-2.5 left-2.5 right-2.5">
+              <div class="text-[10px] text-emerald-400 font-bold mb-0.5">#${m.id} • ${m.year}</div>
               <h3 class="font-bold text-sm text-white leading-snug line-clamp-2 drop-shadow">${m.title}</h3>
-              <div class="flex items-center justify-between text-[11px] text-gray-300 mt-1">
-                <span>${m.year}</span>
-                <span class="text-amber-400 font-semibold">★ ${m.rating}</span>
-              </div>
             </div>
+          </div>
+          <div class="px-3 py-2 flex items-center justify-between text-[11px] text-gray-400 bg-[#10131a]">
+            <span>Шууд үзэх</span>
+            <span class="text-amber-400 font-semibold">★ ${m.rating}</span>
           </div>
         </div>
       `).join('');
@@ -717,14 +674,14 @@
         badge.className = "px-2 py-0.5 rounded bg-emerald-500 text-black font-extrabold text-[10px]";
         paidDiv.classList.add('hidden');
         paywall.classList.add('hidden');
-      } else if (hasFullAccess()) {
+      } else if (hasVipAccess()) {
         badge.textContent = "✓ VIP Эрхээр нээгдсэн";
         badge.className = "px-2 py-0.5 rounded bg-emerald-500 text-black font-extrabold text-[10px]";
         paidDiv.textContent = s.paidText || "Үргэлжлэл хэсэг удахгүй орно.";
         paidDiv.classList.remove('hidden');
         paywall.classList.add('hidden');
       } else {
-        badge.textContent = "👑 Төлбөртэй өгүүллэг";
+        badge.textContent = "👑 Төлбөртэй VIP өгүүллэг";
         badge.className = "px-2 py-0.5 rounded bg-amber-500 text-black font-extrabold text-[10px]";
         paidDiv.classList.add('hidden');
         paywall.classList.remove('hidden');
@@ -733,21 +690,12 @@
       openModal('storyReaderModal');
     }
 
-    function playHeroMovie() {
-      if (movies.length > 0) playMovie(movies[0].id);
-    }
-
+    // Бүх кино үнэгүй шууд тоглоно
     function playMovie(id) {
       const m = movies.find(x => x.id === id);
       if (!m) return;
 
-      if (m.vip && !hasFullAccess()) {
-        openVipModal();
-        return;
-      }
-
       document.getElementById('playerTitle').textContent = m.title;
-      document.getElementById('playerSubtitle').textContent = m.vip ? "👑 Төлбөртэй VIP суваг" : "🆓 Үнэгүй суваг";
       document.getElementById('youtubeSearchFallback').href = m.ytSearchUrl || `https://www.youtube.com/results?search_query=${encodeURIComponent(m.title + ' монгол кино')}`;
       document.getElementById('videoFrame').src = m.full + (m.full.includes('?') ? '&autoplay=1' : '?autoplay=1');
       openModal('playerModal');
@@ -773,7 +721,7 @@
         localStorage.setItem('mf_vip_unlocked', 'true');
         updateUiState();
         closeModal('codeModal');
-        alert("Амжилттай! Төлбөртэй суваг болон бүх өгүүллэгийн эрх нээгдлээ.");
+        alert("Амжилттай! Таны VIP багц нээгдэж, бүх өгүүллэг бүрэн уншигдах боломжтой боллоо.");
       } else {
         document.getElementById('codeErrorMsg').classList.remove('hidden');
       }
@@ -837,7 +785,7 @@
           <div class="min-w-0">
             <div class="font-bold text-white truncate">${s.title}</div>
             <div class="text-[11px] ${s.vip ? 'text-amber-400' : 'text-emerald-400'}">
-              ${s.vip ? '👑 Төлбөртэй өгүүллэг (Эхлэл үнэгүй)' : '🆓 Бүтнээрээ үнэгүй'}
+              ${s.vip ? '👑 Төлбөртэй VIP өгүүллэг (Эхлэл үнэгүй)' : '🆓 Бүтнээрээ үнэгүй'}
             </div>
           </div>
           <div class="flex gap-1.5 shrink-0">
@@ -858,7 +806,7 @@
       if (!title || !freeText) { alert("Өгүүллэгийн нэр болон үнэгүй унших эхлэл хэсгийг бичнэ үү!"); return; }
 
       stories.unshift({ id: Date.now(), title, author, vip: isVip, freeText, paidText });
-      localStorage.setItem('mf_stories_v1', JSON.stringify(stories));
+      localStorage.setItem('mf_stories_v2', JSON.stringify(stories));
 
       document.getElementById('newStoryTitle').value = '';
       document.getElementById('newStoryFreeText').value = '';
@@ -872,7 +820,7 @@
       const s = stories.find(x => x.id === id);
       if (s) {
         s.vip = !s.vip;
-        localStorage.setItem('mf_stories_v1', JSON.stringify(stories));
+        localStorage.setItem('mf_stories_v2', JSON.stringify(stories));
         renderAdminStoriesList();
         renderAllContent();
       }
@@ -881,12 +829,12 @@
     function deleteStory(id) {
       if (!confirm("Энэ өгүүллэгийг устгах уу?")) return;
       stories = stories.filter(x => x.id !== id);
-      localStorage.setItem('mf_stories_v1', JSON.stringify(stories));
+      localStorage.setItem('mf_stories_v2', JSON.stringify(stories));
       renderAdminStoriesList();
       renderAllContent();
     }
 
-    // Админ: Суваг / Кино удирдах
+    // Админ: Үнэгүй Кино удирдах
     function renderAdminMoviesList() {
       const q = (document.getElementById('adminSearchMovie')?.value || '').toLowerCase();
       const list = movies.filter(m => m.title.toLowerCase().includes(q));
@@ -895,14 +843,10 @@
       document.getElementById('adminMoviesList').innerHTML = list.map(m => `
         <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-black/40 border border-white/10">
           <div class="min-w-0 flex-1">
-            <div class="font-bold text-white truncate">${m.title}</div>
-            <div class="text-[11px] ${m.vip ? 'text-amber-400' : 'text-emerald-400'}">
-              ${m.vip ? '👑 Төлбөртэй суваг' : '🆓 Үнэгүй суваг'}
-            </div>
+            <div class="font-bold text-white truncate">#${m.id} ${m.title} <span class="text-emerald-400 text-[11px]">[Үнэгүй]</span></div>
           </div>
           <div class="flex items-center gap-1.5 shrink-0">
-            <button type="button" onclick="toggleMovieVip(${m.id})" class="px-2.5 py-1.5 rounded bg-white/10 hover:bg-white/20 text-white font-semibold">Үнэгүй/Төлбөртэй солих</button>
-            <button type="button" onclick="editMovieLink(${m.id})" class="px-2.5 py-1.5 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black font-semibold">🔗 Линк</button>
+            <button type="button" onclick="editMovieLink(${m.id})" class="px-2.5 py-1.5 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black font-semibold">🔗 Линк засах</button>
             <button type="button" onclick="deleteMovie(${m.id})" class="px-2.5 py-1.5 rounded bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white font-semibold">Устгах</button>
           </div>
         </div>
@@ -911,36 +855,24 @@
 
     function addNewMovie() {
       const title = document.getElementById('newMovieTitle').value.trim();
-      const isVip = document.getElementById('newMovieVip').value === 'true';
       const rawUrl = document.getElementById('newMovieFull').value.trim();
       if (!title || !rawUrl) { alert("Киноны нэр болон линкээ оруулна уу!"); return; }
 
       const ytId = extractYoutubeId(rawUrl);
       movies.unshift({
-        id: Date.now(),
+        id: movies.length + 1,
         title,
         year: 2026,
         rating: "9.2",
-        vip: isVip,
         img: ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : POSTER_THEMES[0],
         full: formatEmbedUrl(rawUrl)
       });
-      localStorage.setItem('mf_movies_channel_v1', JSON.stringify(movies));
+      localStorage.setItem('mf_free_movies_v1', JSON.stringify(movies));
       document.getElementById('newMovieTitle').value = '';
       document.getElementById('newMovieFull').value = '';
       renderAdminMoviesList();
       renderAllContent();
-      alert(`"${title}" сувагт нэмэгдлээ!`);
-    }
-
-    function toggleMovieVip(id) {
-      const m = movies.find(x => x.id === id);
-      if (m) {
-        m.vip = !m.vip;
-        localStorage.setItem('mf_movies_channel_v1', JSON.stringify(movies));
-        renderAdminMoviesList();
-        renderAllContent();
-      }
+      alert(`"${title}" үнэгүй кино санд нэмэгдлээ!`);
     }
 
     function editMovieLink(id) {
@@ -951,7 +883,7 @@
         m.full = formatEmbedUrl(newUrl.trim());
         const ytId = extractYoutubeId(newUrl.trim());
         if (ytId) m.img = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-        localStorage.setItem('mf_movies_channel_v1', JSON.stringify(movies));
+        localStorage.setItem('mf_free_movies_v1', JSON.stringify(movies));
         renderAdminMoviesList();
         renderAllContent();
         alert("Линк шинэчлэгдлээ!");
@@ -961,7 +893,7 @@
     function deleteMovie(id) {
       if (!confirm("Устгах уу?")) return;
       movies = movies.filter(x => x.id !== id);
-      localStorage.setItem('mf_movies_channel_v1', JSON.stringify(movies));
+      localStorage.setItem('mf_free_movies_v1', JSON.stringify(movies));
       renderAdminMoviesList();
       renderAllContent();
     }
@@ -975,7 +907,7 @@
 
     function copySmsTemplate() {
       const code = document.getElementById('cfgVipCode').value.trim().toUpperCase();
-      const msg = `MongolFlix: Tanii VIP suvag ba uguulleg unshih erh idevhjlee. Nuuts kod: ${code}`;
+      const msg = `MongolFlix: Tanii VIP bagts ba uguulleg unshih erh idevhjlee. Nuuts kod: ${code}`;
       navigator.clipboard.writeText(msg);
       alert("Мессеж хуулагдлаа:\n\n" + msg);
     }
@@ -1009,7 +941,7 @@
       config.accountHolder = document.getElementById('cfgAccountHolder').value.trim() || "MongolFlix";
       config.pin = document.getElementById('cfgAdminPin').value.trim().toUpperCase() || "ADMIN";
 
-      localStorage.setItem('mf_vip_cfg_v1', JSON.stringify(config));
+      localStorage.setItem('mf_vip_cfg_v2', JSON.stringify(config));
       updateUiState();
       renderAllContent();
       closeModal('adminPanelModal');
@@ -1021,7 +953,7 @@
       const blob = new Blob([data], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "mongolflix-backup.json";
+      a.download = "mongolflix-vip-stories-backup.json";
       a.click();
     }
 
@@ -1032,9 +964,9 @@
       reader.onload = evt => {
         try {
           const parsed = JSON.parse(evt.target.result);
-          if (parsed.stories) { stories = parsed.stories; localStorage.setItem('mf_stories_v1', JSON.stringify(stories)); }
-          if (parsed.movies) { movies = parsed.movies; localStorage.setItem('mf_movies_channel_v1', JSON.stringify(movies)); }
-          if (parsed.config) { config = { ...DEFAULT_CFG, ...parsed.config }; localStorage.setItem('mf_vip_cfg_v1', JSON.stringify(config)); }
+          if (parsed.stories) { stories = parsed.stories; localStorage.setItem('mf_stories_v2', JSON.stringify(stories)); }
+          if (parsed.movies) { movies = parsed.movies; localStorage.setItem('mf_free_movies_v1', JSON.stringify(movies)); }
+          if (parsed.config) { config = { ...DEFAULT_CFG, ...parsed.config }; localStorage.setItem('mf_vip_cfg_v2', JSON.stringify(config)); }
           updateUiState();
           renderAllContent();
           openAdminPanel();
